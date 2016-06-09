@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{7A4ECF9E-0332-4DF8-90F1-C09585C47331}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>MailServerLauncher</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.SQLite, Version=1.0.101.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.DirectoryServices.Protocols" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataSmart.MailServer.Monitoring\MonitoringServer.cs" />
+    <Compile Include="DataSmart.MailServer.Monitoring\MonitoringServerSession.cs" />
+    <Compile Include="DataSmart.MailServer.Relay\RelayMessageInfo.cs" />
+    <Compile Include="DataSmart.MailServer.Relay\RelayServer.cs" />
+    <Compile Include="DataSmart.MailServer.Relay\RelayVariablesManager.cs" />
+    <Compile Include="DataSmart.MailServer.Resources\ResManager.cs" />
+    <Compile Include="DataSmart.MailServer.UI\InstallAppForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\TrayAppForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\WinAppForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer\BadLoginManager.cs" />
+    <Compile Include="DataSmart.MailServer\ConvertEx.cs" />
+    <Compile Include="DataSmart.MailServer\DeliveryStatusNotification.cs" />
+    <Compile Include="DataSmart.MailServer\Error.cs" />
+    <Compile Include="DataSmart.MailServer\FetchPop3.cs" />
+    <Compile Include="DataSmart.MailServer\GlobalMessageRuleActionResult.cs" />
+    <Compile Include="DataSmart.MailServer\GlobalMessageRuleProcessor.cs" />
+    <Compile Include="DataSmart.MailServer\Logger.cs" />
+    <Compile Include="DataSmart.MailServer\MailServerAuthType.cs" />
+    <Compile Include="DataSmart.MailServer\Program.cs" />
+    <Compile Include="DataSmart.MailServer\RecycleBinManager.cs" />
+    <Compile Include="DataSmart.MailServer\SCore.cs" />
+    <Compile Include="DataSmart.MailServer\Server.cs" />
+    <Compile Include="DataSmart.MailServer\ServerReturnMessage.cs" />
+    <Compile Include="DataSmart.MailServer\TextDb.cs" />
+    <Compile Include="DataSmart.MailServer\VirtualServer.cs" />
+    <Compile Include="DataSmart.MailServer\WinLogon.cs" />
+    <Compile Include="DataSmart.MailServer\XmlTable.cs" />
+    <Compile Include="DataSmart.MailServer\_MessageRuleAction_FTP_AsyncSend.cs" />
+    <Compile Include="DataSmart.MailServer\_MessageRuleAction_HTTP_Async.cs" />
+    <Compile Include="DataSmart.MailServer\_MessageRuleAction_NNTP_Async.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataSmart.MailServerLauncher.Resources.exit.ico" />
+    <EmbeddedResource Include="DataSmart.MailServerLauncher.Resources.trayicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\MailServer.Core.csproj">
+      <Project>{0db6742d-47ab-46c2-af69-d0b812dee512}</Project>
+      <Name>MailServer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DnsBlackList\MailServer.DnsBlackList.csproj">
+      <Project>{fe674864-3618-4e16-9b3a-1a4d3e1481cd}</Project>
+      <Name>MailServer.DnsBlackList</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LocalXmlAPI\MailServer.LocalXmlStorage.csproj">
+      <Project>{a9e65834-ebd3-489f-81a5-04cd5f0c8760}</Project>
+      <Name>MailServer.LocalXmlStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LumiSoft.Net\System.NetworkToolkit.csproj">
+      <Project>{7ab36ccf-5ffd-4780-a54e-a102eca028b5}</Project>
+      <Name>System.NetworkToolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirusScan\MailServer.VirusScan.csproj">
+      <Project>{4ec90da3-4b2c-4f20-95eb-bcb5e48a090d}</Project>
+      <Name>MailServer.VirusScan</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

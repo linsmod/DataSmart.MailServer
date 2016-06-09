@@ -1,0 +1,173 @@
+<html>
+<head>
+    <link rel=StyleSheet href=help.css>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Online Help</title>
+</head>
+
+<body>
+
+    <p class="masthead">global message rules - actions</p>
+    <p class="nav"><a href="#">Home/<a href="#">Administration</a>/<a href="GRules.htm">GlobalMessageRules</a>/<a href="#">Actions</a></p>
+    <p class="posttitle">	Global Message Rules - Actions</p>
+    <p class="post">
+        Actions in <a href="#">Global Message Rules</a> runs when the <a href="#">Match Expression</a>
+        is evaluated. There are a number of pre-defined Actions which will help you to
+        handle messages.<br>
+        Click Add button next to the Actions pane in Add/Edit Global Rules window which
+        will bring the main Action dialog.<br> Following is the summary of the type of
+        Actions currently supported by the server:
+        <table class="htable" cellSpacing="0" cellPadding="5" border="0" id="table1" width="586">
+            <tr>
+                <th class="htableheader">Action</th>
+                <th class="htableheader" width="207">Description</th>
+                <th class="htableheader" width="30">API </th>
+                <th class="htableheader" style="width: 238px">Parameters</th>
+            </tr>
+            <tr>
+                <td class="htablerow" style="text-align: center"><b>Autoresponse</b></td>
+                <td class="htablerow" width="213">
+                    AutoResponse is sent to specified
+                    recipient
+                </td>
+                <td class="htablerow" style="text-align: center" width="36">1</td>
+                <td class="htablerow" style="width: 238px">Recipient address</td>
+            </tr>
+            <tr>
+                <td class="htablerowOdd" style="text-align: center; height: 37px;"><b>Delete Message</b></td>
+                <td class="htablerowOdd" width="213" style="height: 37px">
+                    Deletes
+                    message.
+                </td>
+                <td class="htablerowOdd" style="text-align: center; height: 37px;" width="36">2</td>
+                <td class="htablerowOdd" style="height: 37px; width: 238px;">N/A</td>
+            </tr>
+            <tr>
+                <td class="htablerow" style="text-align: center"><b>ForwardToEmail</b></td>
+                <td class="htablerow" width="213">
+                    Message is forwarded to specified
+                    email
+                </td>
+                <td class="htablerow" style="text-align: center" width="36">3</td>
+                <td class="htablerow" style="width: 238px">Forwarding e-mail address</td>
+            </tr>
+            <tr>
+                <td class="htablerowOdd" style="text-align: center; height: 43px;"><b>ForwardToHost</b></td>
+                <td class="htablerowOdd" width="213" style="height: 43px">
+                    Message is forwarded to specified host
+                    at specified port
+                </td>
+                <td class="htablerowOdd" style="text-align: center; height: 43px;" width="36">4</td>
+                <td class="htablerowOdd" style="height: 43px; width: 238px;">Forwarding Hostname and port</td>
+            </tr>
+            <tr>
+                <td class="htablerow" style="text-align: center"><b>StoreToDiskFolder</b></td>
+                <td class="htablerow" width="213">
+                    Message is stored to specified disk
+                    folder
+                </td>
+                <td class="htablerow" style="text-align: center" width="36">5</td>
+                <td class="htablerow" style="width: 238px">Disk Folder UNC path</td>
+            </tr>
+            <tr>
+                <td class="htablerowOdd" style="text-align: center"><b>ExecuteProgram</b></td>
+                <td class="htablerowOdd" width="213">
+                    Execute a script or application with
+                    the specified
+                    parameters
+                </td>
+                <td class="htablerowOdd" style="text-align: center" width="36">6</td>
+                <td class="htablerowOdd" style="width: 238px">Program path and parameters</td>
+            </tr>
+            <tr>
+                <td class="htablerow" style="text-align: center"><b>MoveToIMAPFolder</b></td>
+                <td class="htablerow" width="213">
+                    Stores message to specified message
+                    folder(for example: Junk). This will take effect only for local
+                    recipients and the message will be moved to the destination folder
+                </td>
+                <td class="htablerow" style="text-align: center" width="36">7</td>
+                <td class="htablerow" style="width: 238px">
+                    IMAP folder name<br>
+                    Entering &quot;Trash&quot; would move the message to each user's &quot;Trash&quot; folder.
+                </td>
+            </tr>
+            <tr>
+                <td class="htablerowOdd" style="text-align: center"><b>AddHeaderField</b></td>
+                <td class="htablerowOdd" width="213">
+                    Appends specified header field to
+                    message headers
+                </td>
+                <td class="htablerowOdd" style="text-align: center" width="36">8</td>
+                <td class="htablerowOdd" style="width: 238px">Header name and value</td>
+            </tr>
+            <tr>
+                <td class="htablerow" style="text-align: center"><b>RemoveHeaderField</b></td>
+                <td class="htablerow" width="213">
+                    Removes specified header field or
+                    fields if there are multiple of them
+                </td>
+                <td class="htablerow" style="text-align: center" width="36">9</td>
+                <td class="htablerow" style="width: 238px">N/A</td>
+            </tr>
+            <tr>
+                <td class="htablerowOdd" style="text-align: center"><b>SendErrorToClient</b></td>
+                <td class="htablerowOdd" width="213">
+                    Sends error to currently connected
+                    client. NOTE: Error text may contain ASCII printable chars only and
+                    maximum length is 500.
+                </td>
+                <td class="htablerowOdd" style="text-align: center" width="36">10</td>
+                <td class="htablerowOdd" style="width: 238px">Error text in <u>ASCII printable</u></td>
+            </tr>
+            <tr>
+                <td class="htablerow" style="text-align: center"><b>StoreToFTPFolder</b></td>
+                <td class="htablerow" width="213">
+                    Stores message to specified FTP server
+                    folder
+                </td>
+                <td class="htablerow" style="text-align: center" width="36">11</td>
+                <td class="htablerow" style="width: 238px">
+                    FTP server address, port, username,
+                    password and folder
+                </td>
+            </tr>
+            <tr>
+                <td class="htablerowOdd" style="text-align: center"><b>PostToNNTPNewsGroup</b></td>
+                <td class="htablerowOdd" width="213">
+                    Posts message to specified NNTP
+                    newsgroup
+                </td>
+                <td class="htablerowOdd" style="text-align: center" width="36">12</td>
+                <td class="htablerowOdd" style="width: 238px">
+                    NNTP server address, port, username,
+                    password and newsgroup name
+                </td>
+            </tr>
+            <tr>
+                <td class="htablerow" style="text-align: center"><b>PostToHTTP</b></td>
+                <td class="htablerow" width="213">
+                    Posts message to specified page via
+                    HTTP
+                </td>
+                <td class="htablerow" style="text-align: center" width="36">13</td>
+                <td class="htablerow" style="width: 238px">
+                    HTTP server address, port, username,
+                    password and query string. Please verify the target web server's maximum
+                    upload limit size to avoid surprises, the size should be in parallel
+                    with maximum attachment size.
+                </td>
+            </tr>
+        </table>
+        <blockquote>
+            Please keep in mind Delete and MoveTo actions will be executed once
+            all other actions executed. This is to make sure that the original message
+            is still available to other actions even the actions are after Delete or
+            MoveTo type of actions.
+        </blockquote>
+<pre>In the following example:<br>  Action 1 - Delete Message<br>  Action 2 - Store to Disk Folder<br>Action 2 will run even though Action 1 deletes the message.</pre>
+    <p class="dateheader">Last Modified on 12/3/2016&nbsp;</p>
+    <p class="postfooter">DataSmart MailServer Help (c) 2016.</p>
+</body>
+
+</html>

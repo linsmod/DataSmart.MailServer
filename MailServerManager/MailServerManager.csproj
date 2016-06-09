@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{E72B6753-C56B-4C1C-95C7-12A9FB91AC96}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>MailServerManager</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\dll\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataSmart.MailServer.Filters\ISettingsUI.cs" />
+    <Compile Include="DataSmart.MailServer.UI.MonitoringForms\SipCallsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.MonitoringForms\SipRegistrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.MonitoringForms\SipRegistrationsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.QueuesForms\IncomingSMTPForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.QueuesForms\OutgoingSmtpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.Resources\ResManager.cs" />
+    <Compile Include="DataSmart.MailServer.UI.RoutingForms\AddEditRouteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.RoutingForms\RoutesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SecurityForms\AddEditIPSecurityEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SecurityForms\IPSecurityForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SharedFolderForms\AddEditRootFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SharedFolderForms\RootFoldersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\AddEditSmartHostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\AuthenticationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\BackupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\FetchPop3ServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\GeneralForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\ImapServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\LoggingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\Pop3ServicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\RelayServicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\ReturnMessagesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\ServicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\SipServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.SystemForms\SmtpServicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.UserForms\FolderMessagesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.UserForms\FolderPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI.UserForms\RecycleBinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditBindInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditDomainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditFilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditGlobalMessageRuleActionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditGlobalMessageRuleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditMailingListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditUserMessageRuleActionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditUserMessageRuleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditUserRemoteServerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditUserSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\AddEditVirtualServerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\BackupMessagesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\ComposeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\ConnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\CreateCertificateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\DomainsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\ErrorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\EventForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\EventsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\FiltersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\GlobalMessageRuleActionComposeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\GlobalMessageRulesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\GroupsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\ImageUtil.cs" />
+    <Compile Include="DataSmart.MailServer.UI\LogsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\LogViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\MailingListsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\NotificationForm.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\Program.cs" />
+    <Compile Include="DataSmart.MailServer.UI\RecycleBinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\SelectFilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\SelectUserFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\SelectUserOrGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\SelectVirtualServerApiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\ServerInfomationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\SessionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\SystemSipServiceGatewayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\ToolBarRendererEx.cs" />
+    <Compile Include="DataSmart.MailServer.UI\TransferMessagesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\UsersDefaultFolderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\UsersDefaultFoldersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\UsersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\VirtualServersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\WComboBoxItem.cs" />
+    <Compile Include="DataSmart.MailServer.UI\WFrame.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\WLineGraph.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\WListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\WRichEditEx.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\WRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer.UI\WTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer\GlobalMessageRuleProcessor.cs" />
+    <Compile Include="DataSmart.MailServer\SCore.cs" />
+    <Compile Include="MailServerManager\ConvertEx.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\about.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\acl.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\add.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\addressing.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\app.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\authentication.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\backup.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\bold.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\checksyntax.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\connect.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\delete.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\domain32.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\down.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\edit.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\error.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\error.jpg" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\exit.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\filter.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\filter32.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\filter_disabled.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\folder32.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\fontbackcolor.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\fontcolor.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\forum.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\group.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\group_disabled.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\help.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-call.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-connect.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-domain.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-filter.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-folder-share.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-folder.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-folders.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-group.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-list.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-logging.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-mail.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-monitor.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-recycle.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-route.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-security.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-server-running.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-server-stopped.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-server.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-servers.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-session.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-sip.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-system.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\icon-user.png" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\italic.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\mailinglist_disabled.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\message.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\message16.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\messagerule.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\messagerule_disabled.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\properties.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\queue.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\recyclebin16.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\refresh.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\remoteserver32.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\restore.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\rootfolder_disabled.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\rule.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\ruleaction.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\save.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\security.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\security32.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\security_disabled.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\server.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\servers.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\services.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\share32.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\ssl.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\underline.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\up.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\user.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\userinfo.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\user_disabled.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\viewmessages.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\warning.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.Resources\write.ico" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI\AboutForm.resources" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI\MainForm.resources" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI\ServerInfomationForm.resources" />
+    <EmbeddedResource Include="DataSmart.MailServer.UI.WFrame.resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Management\MailServer.Management.csproj">
+      <Project>{9076ec42-abab-4b76-a078-69b7f8d6980f}</Project>
+      <Name>MailServer.Management</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LumiSoft.Net\System.NetworkToolkit.csproj">
+      <Project>{7ab36ccf-5ffd-4780-a54e-a102eca028b5}</Project>
+      <Name>System.NetworkToolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Help\GRules-Actions.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\GRules-Expression.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\GRules.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\help.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Help\help.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

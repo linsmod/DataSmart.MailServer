@@ -1,0 +1,325 @@
+<html>
+<head>
+    <link rel=StyleSheet href=help.css>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Online Help</title>
+    <style type="text/css">
+        .style1 {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p class="masthead">global message rules - expression</p>
+    <p class="nav">
+        <a href="#">
+            Home/<a href="#">Administration</a>/<a href="Grules.htm">GlobalMessageRules</a>/<a href="#">
+                Match
+                Expression
+            </a>
+    </p>
+    <p class="posttitle">	Global Message Rules - Match Expression</p>
+    <p class="post">
+        Match Expression is a text field which accepts a certain syntax that
+        defines the rule expression.<br>
+        Expression consists of matchers, operators and values which defines a condition.<br>
+<pre>matcher operator &quot;value&quot;<br><br><i>A simple example of a condition would be:</i><br><b>Date == "2006.02.23"</b><br>where Date is the matcher, == is the operator and &quot;2006.02.23&quot; is the value.<br>This condition can be read as "If the Date is equal to 2006.02.23&quot;.</pre>&nbsp;
+    <p class="post">You can join multiple conditions with clauses or negate them;</p>
+<pre> Condition1 <b>AND</b> Condition2 =&gt; If Condition1 and Condition2 are both true<br> Condition1 <b>OR</b> Condition2  =&gt; If Condition1 or  Condition2 is true <br> <b>NOT </b>Condition1            =&gt; Reverse Condition1; false if true, true if false</pre>
+<pre> Conditions can also be parenthesized set of matchers;<br><br> Date <b>==</b> &quot;2006.02.23&quot; <b>AND</b> <b>(</b>HeaderField &quot;X-Priority:&quot; <b>&lt;</b> &quot;4&quot; <b>AND</b> HeaderField &quot;X-Priority:&quot; <b>!=</b> &quot;1&quot;<b>)</b><br><br> As you can see from the above example, we are following the syntax of if-then statement in C</pre>
+    <p class="posttitle">Matchers:</p>
+    <p class="post">
+        Following are the available matchers: &lt;SP&gt; is referring to the
+        single space separation (Space bar).
+    </p>
+    <table class="htable" cellSpacing="0" cellPadding="5" border="0" id="table1">
+        <tr>
+            <th class="htableheader" style="width: 96px">Matcher</th>
+            <th class="htableheader" style="width: 124px">Usage</th>
+            <th class="htableheader" style="width: 159px">Description </th>
+            <th class="htableheader" style="width: 43px">API </th>
+            <th class="htableheader">Example</th>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>smtp.mail_from</b></td>
+            <td class="htablerow" style="width: 124px">smtp.mail_from</td>
+            <td class="htablerow" style="width: 159px">SMTP command MAIL FROM: value</td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">smtp.mail_from <strong>!=</strong> &quot;ivar@lumisoft.ee&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>smtp.rcpt_to</b></td>
+            <td class="htablerowOdd" style="width: 124px">smtp.rcpt_to</td>
+            <td class="htablerowOdd" style="width: 159px">SMTP command RCPT TO: values</td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">smtp.rcpt_to <strong>==</strong> &quot;me@domain.com&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>smtp.ehlo</b></td>
+            <td class="htablerow" style="width: 124px">smtp.ehlo</td>
+            <td class="htablerow" style="width: 159px">SMTP command EHLO/HELO: value</td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">smtp.ehlo == &quot;ABC Server ready&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>smtp.authenticated</b></td>
+            <td class="htablerowOdd" style="width: 124px">smtp.authenticated</td>
+            <td class="htablerowOdd" style="width: 159px">
+                Specifies if SMTP session is
+                authenticated
+            </td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">smtp.authenticated == true</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>smtp.user</b></td>
+            <td class="htablerow" style="width: 124px">smtp.user</td>
+            <td class="htablerow" style="width: 159px">
+                SMTP authenticated user name. Empy
+                string &quot;&quot; if not authenticated
+            </td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">smtp.user ==&quot;ivar&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>smtp.remote_ip</b></td>
+            <td class="htablerowOdd" style="width: 124px">smtp.remote_ip</td>
+            <td class="htablerowOdd" style="width: 159px">
+                SMTP session connected client IP
+                address
+            </td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">smtp.remote_ip == &quot;192.168.1.10&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>message.size</b></td>
+            <td class="htablerow" style="width: 124px">message.size</td>
+            <td class="htablerow" style="width: 159px">Message size in bytes</td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">message.size &gt; &quot;1024&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>message.header</b></td>
+            <td class="htablerowOdd" style="width: 124px">message.header &lt;SP&gt; &quot;HeaderFieldName:&quot;</td>
+            <td class="htablerowOdd" style="width: 159px">
+                Message main header header field. If
+                multiple header fields, then all are checked
+            </td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">message.header &quot;CustomHeader:&quot; == &quot;YES&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>message.all_headers</b></td>
+            <td class="htablerow" style="width: 124px">message.all_headers &lt;SP&gt; &quot;HeaderFieldName:&quot;</td>
+            <td class="htablerow" style="width: 159px">
+                Any mime entity header field. If
+                multiple header fields, then all are checked.
+            </td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">message.all_headers &quot;CustomHeader:&quot; ==&quot;YES&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>message.body_text</b></td>
+            <td class="htablerowOdd" style="width: 124px">message.body_text</td>
+            <td class="htablerowOdd" style="width: 159px">Plain text body of the message</td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">message.body_text * &quot;viagra&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>message.body_html</b></td>
+            <td class="htablerow" style="width: 124px">message.body_html</td>
+            <td class="htablerow" style="width: 159px">HTML body of the message</td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">message.body_html * &quot;size=12&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>message.content_md5</b></td>
+            <td class="htablerowOdd" style="width: 124px">message.content_md5</td>
+            <td class="htablerowOdd" style="width: 159px">
+                Message any mime entity decoded data
+                MD5 hash.
+            </td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">message.content_md5 == &quot;A3BE4D3C553CA&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>sys.date_time</b></td>
+            <td class="htablerow" style="width: 124px">sys.date_time</td>
+            <td class="htablerow" style="width: 159px">
+                System current date time. Format:
+                yyyy.MM.dd HH:mm:ss
+            </td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">sys.date_time == &quot;2006.01.01 24:00:00&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>sys.date</b></td>
+            <td class="htablerowOdd" style="width: 124px">sys.date</td>
+            <td class="htablerowOdd" style="width: 159px">
+                System current date. Format:
+                yyyy.MM.dd
+            </td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">sys.date == &quot;2006.01.01&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>sys.time</b></td>
+            <td class="htablerow" style="width: 124px">sys.time</td>
+            <td class="htablerow" style="width: 159px">System current time. Format: HH:mm:ss.</td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">sys.time==&quot;24:00:00&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>sys.day_of_week</b></td>
+            <td class="htablerowOdd" style="width: 124px">sys.day_of_week</td>
+            <td class="htablerowOdd" style="width: 159px">
+                Day of week. Days: sunday,monday,
+                tuesday, wednesday, thursday, friday, saturday.
+            </td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">sys.day_of_week ==&quot;sunday&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="width: 96px"><b>sys.day_of_month</b></td>
+            <td class="htablerow" style="width: 124px">sys.day_of_month</td>
+            <td class="htablerow" style="width: 159px">
+                Day of month. Format: 1 - 31. If no so
+                much days in month, then replaced with month max days.
+            </td>
+            <td class="htablerow" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerow">sys.day_of_month == &quot;31&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerowOdd" style="width: 96px"><b>sys.day_of_year</b></td>
+            <td class="htablerowOdd" style="width: 124px">sys.day_of_year</td>
+            <td class="htablerowOdd" style="width: 159px">Month of year. Format: 1 - 12</td>
+            <td class="htablerowOdd" style="width: 43px">
+                <p class="style1">N/A</p>
+            </td>
+            <td class="htablerowOdd">sys.day_of_year ==&quot;12&quot;</td>
+        </tr>
+    </table>
+    <br>
+    <p class="posttitle">Operators:</p>
+    <table class="htable" cellSpacing="0" cellPadding="5" border="0" id="table2">
+        <tr>
+            <th class="htableheader">Operator</th>
+            <th class="htableheader">Usage</th>
+            <th class="htableheader" style="width: 190px">Description</th>
+            <th class="htableheader">API info</th>
+            <th class="htableheader">Example</th>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center">&gt;</td>
+            <td class="htablerow">&gt; &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="width: 190px">matcher bigger than value</td>
+            <td class="htablerow" style="text-align: center">N/A</td>
+            <td class="htablerow">HeaderField &quot;X-Priority:&quot; <strong>&gt;</strong> &quot;2&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center; height: 26px;">&lt;</td>
+            <td class="htablerow" style="height: 26px">&lt; &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="height: 26px; width: 190px">matcher smaller than value</td>
+            <td class="htablerow" style="text-align: center; height: 26px;">N/A</td>
+            <td class="htablerow" style="height: 26px">
+                HeaderField &quot;X-Priority:&quot;
+                <strong>&lt;</strong> &quot;4&quot;
+            </td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center">!=</td>
+            <td class="htablerow">!= &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="width: 190px">matcher Not equal to value.</td>
+            <td class="htablerow" style="text-align: center">N/A</td>
+            <td class="htablerow">smtp.mail_from <strong>!=</strong> &quot;ivar@lumisoft.ee&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center">==</td>
+            <td class="htablerow">== &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="width: 190px">matcher Equal to value</td>
+            <td class="htablerow" style="text-align: center">N/A</td>
+            <td class="htablerow">smtp.mail_from <strong>==</strong> &quot;ivar@lumisoft.ee&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center">&gt;=</td>
+            <td class="htablerow">&gt;= &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="width: 190px">matcher bigger or equal to value</td>
+            <td class="htablerow" style="text-align: center">N/A</td>
+            <td class="htablerow">HeaderField &quot;X-Priority:&quot; <strong>&gt;=</strong> &quot;3&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center">&lt;=</td>
+            <td class="htablerow">&lt;= &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="width: 190px">matcher smaller or equal to value</td>
+            <td class="htablerow" style="text-align: center">N/A</td>
+            <td class="htablerow">HeaderField &quot;X-Priority:&quot; <strong>&lt;=</strong> &quot;3&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center">*</td>
+            <td class="htablerow">* &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="width: 190px">matcher asterisk pattern match to value</td>
+            <td class="htablerow" style="text-align: center">N/A</td>
+            <td class="htablerow">HeaderField &quot;From:&quot; * &quot;Ivar&quot;</td>
+        </tr>
+        <tr>
+            <td class="htablerow" style="text-align: center">!*</td>
+            <td class="htablerow">!* &lt;SP&gt; &quot;value&quot;</td>
+            <td class="htablerow" style="width: 190px">
+                matcher asterisk pattern
+                reverse (not match the pattern)
+            </td>
+            <td class="htablerow" style="text-align: center">N/A</td>
+            <td class="htablerow">HeaderField &quot;From:&quot; !* &quot;spammer@spam.com&quot;</td>
+        </tr>
+    </table>
+    <p class="posttitle">Examples:</p>
+
+<pre><br>Date == &quot;19.02.2006&quot;  
+HeaderField &quot;From:&quot; * &quot;*Ivar*&quot;
+MainHeaderField &quot;Content-Disposition:&quot; * &quot;*aNL.txt*&quot;
+Date == &quot;20.02.2006&quot; AND smtp.mail_from != &quot;ivar@lumisoft.ee&quot;<br>
+<br>HeaderField "From:" * "*Ivar*" OR (HeaderField "X-Priority:" < "4" AND HeaderField "X-Priority:" != "1")
+HeaderField "MyCustomHeader:" == &quot;THE_VALUE" AND sys.date &gt; &quot;01.01.2006&quot;
+</pre>
+    <p class="dateheader">Last Modified on 12/3/2016&nbsp;</p>
+    <p class="postfooter">DataSmart MailServer Help (c) 2016.</p>
+
+</body>
+
+</html>

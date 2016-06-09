@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{0DB6742D-47AB-46C2-AF69-D0B812DEE512}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>MailServer.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataSmart.MailServer.Filters\ISettingsUI.cs" />
+    <Compile Include="DataSmart.MailServer\ArgsValidator.cs" />
+    <Compile Include="DataSmart.MailServer\BuildInitStringFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSmart.MailServer\CheckNextRule.cs" />
+    <Compile Include="DataSmart.MailServer\CompareSource.cs" />
+    <Compile Include="DataSmart.MailServer\CompareType.cs" />
+    <Compile Include="DataSmart.MailServer\EmailMessageItems.cs" />
+    <Compile Include="DataSmart.MailServer\FilterResult.cs" />
+    <Compile Include="DataSmart.MailServer\GlobalMessageRuleActionType.cs" />
+    <Compile Include="DataSmart.MailServer\IMailServerManagementApi.cs" />
+    <Compile Include="DataSmart.MailServer\InsufficientPermissionsException.cs" />
+    <Compile Include="DataSmart.MailServer\IPSecurityAction.cs" />
+    <Compile Include="DataSmart.MailServer\ISmtpMessageFilter.cs" />
+    <Compile Include="DataSmart.MailServer\ISmtpSenderFilter.cs" />
+    <Compile Include="DataSmart.MailServer\ISmtpUserMessageFilter.cs" />
+    <Compile Include="DataSmart.MailServer\MatchAction.cs" />
+    <Compile Include="DataSmart.MailServer\PathHelper.cs" />
+    <Compile Include="DataSmart.MailServer\RouteAction.cs" />
+    <Compile Include="DataSmart.MailServer\ServiceType.cs" />
+    <Compile Include="DataSmart.MailServer\SharedFolderRoot.cs" />
+    <Compile Include="DataSmart.MailServer\SharedFolderRootType.cs" />
+    <Compile Include="DataSmart.MailServer\UserPermissions.cs" />
+    <Compile Include="Extensions\SecureStringExtensions.cs" />
+    <Compile Include="IMAP.Server\IMAP_eArgs_MessageItems.cs" />
+    <Compile Include="IMAP.Server\IMAP_Message.cs" />
+    <Compile Include="IMAP.Server\IMAP_MessageCollection.cs" />
+    <Compile Include="IMAP.Server\IMAP_MessageItems.cs" />
+    <Compile Include="IMAP\IMAP_BODY.cs" />
+    <Compile Include="IMAP\IMAP_BODY_Entity.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataSmart.MailServer\wfrm_BuildInitString_base.resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LumiSoft.Net\System.NetworkToolkit.csproj">
+      <Project>{7ab36ccf-5ffd-4780-a54e-a102eca028b5}</Project>
+      <Name>System.NetworkToolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

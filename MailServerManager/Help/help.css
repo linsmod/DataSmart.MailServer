@@ -1,0 +1,259 @@
+BODY
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    FONT-SIZE: 1em;
+    BACKGROUND: #ffffff;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    MARGIN-TOP: 0px;
+    MARGIN-LEFT: 0px;
+    COLOR: #000;
+    PADDING-TOP: 0px;
+    FONT-FAMILY: "trebuchet ms", verdana, arial, helvetica, sans-serif
+}
+#main
+{
+    PADDING-RIGHT: 5px;
+    PADDING-LEFT: 5px;
+    PADDING-BOTTOM: 10px;
+    PADDING-TOP: 0px;
+    BACKGROUND-COLOR: #fff
+}
+blockquote {
+	border-left: 5px solid #ccc;
+	margin-left: 1.5em;
+	padding-left: 5px;
+	font-size: 90%;
+
+}
+#Title
+{
+    PADDING-LEFT: 0px;
+    FONT-SIZE: 43px;
+    TEXT-TRANSFORM: none;
+    PADDING-TOP: 10px
+}
+#Description
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 12px;
+    PADDING-BOTTOM: 0px;
+    PADDING-TOP: 10px
+}
+.DateHeader
+{
+    MARGIN-TOP: 30px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 18px;
+    MARGIN-BOTTOM: 0px;
+    WIDTH: 300px;
+    COLOR: gray;
+    BORDER-BOTTOM: #c3cfe5 1px solid;
+    TEXT-ALIGN: left
+}
+.PostTitle
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 16px;
+    FONT-FAMILY: arial, helvetica
+}
+.Post
+{
+    PADDING-RIGHT: 15px;
+    FONT-SIZE: 15px;
+    MARGIN-BOTTOM: 20px;
+    COLOR: black;
+    LINE-HEIGHT: 22px;
+    FONT-FAMILY: arial, helvetica
+}
+.PostFooter
+{
+    FONT-SIZE: 10px;
+    MARGIN-BOTTOM: 10px;
+    MARGIN-LEFT: 0px;
+    COLOR: gray
+}
+
+
+a
+{
+    TEXT-DECORATION: none
+}
+a:hover
+{
+    BACKGROUND-COLOR: #c3cfe5
+}
+a:link
+{
+    COLOR: #002c99;
+    TEXT-DECORATION: underline
+}
+a:visited
+{
+    COLOR: #002c99;
+    TEXT-DECORATION: underline
+}
+a:active
+{
+    COLOR: #002c99;
+    TEXT-DECORATION: underline
+}
+#masthead
+{
+    PADDING-RIGHT: 0.5em;
+    BACKGROUND-POSITION: 15px 15px;
+    PADDING-LEFT: 0.5em;
+    BACKGROUND-IMAGE: url(#);
+    PADDING-BOTTOM: 1.5em;
+    FONT: bold 1.4em "lucida grande", "lucida sans unicode", lucida, verdana, helvetica, arial, sans-serif;
+    TEXT-TRANSFORM: lowercase;
+    COLOR: #fff;
+    PADDING-TOP: 0.5em;
+    BACKGROUND-REPEAT: repeat-x;
+    BACKGROUND-COLOR: #31455a;
+    TEXT-ALIGN: left
+}
+#nav
+{
+    PADDING-RIGHT: 0.5em;
+    BORDER-TOP: #fff 1px solid;
+    PADDING-LEFT: 0.5em;
+    BACKGROUND: #eeeeee;
+    PADDING-BOTTOM: 0.5em;
+    PADDING-TOP: 0.5em;
+    BORDER-BOTTOM: #aaa 1px solid;
+    TEXT-ALIGN: left
+}
+#nav a
+{
+    PADDING-LEFT: 1em;
+    FONT-SIZE: 0.9em;
+    COLOR: #31455a;
+    TEXT-DECORATION: underline
+}
+.masthead
+{
+    BACKGROUND-POSITION: 15px 15px;
+    FONT: bold 1.4em "lucida grande", "lucida sans unicode", lucida, verdana, helvetica, arial, sans-serif;
+    TEXT-TRANSFORM: lowercase;
+    COLOR: #fff;
+    BACKGROUND-COLOR: #31455a;
+    TEXT-ALIGN: left
+}
+.nav
+{
+    PADDING-RIGHT: 0.5em;
+    BORDER-TOP: #fff 1px solid;
+    PADDING-LEFT: 0.5em;
+    BACKGROUND: #eeeeee;
+    PADDING-BOTTOM: 0.5em;
+    PADDING-TOP: 0.5em;
+    BORDER-BOTTOM: #aaa 1px solid;
+    TEXT-ALIGN: left
+}
+.nav a
+{
+    PADDING-LEFT: 1em;
+    FONT-SIZE: 0.9em;
+    COLOR: #31455a;
+    TEXT-DECORATION: underline
+}
+table
+{
+    PADDING-RIGHT: 5px;
+    PADDING-LEFT: 5px;
+    PADDING-BOTTOM: 5px;
+    MARGIN: 5px 10px;
+    PADDING-TOP: 5px;
+    TEXT-ALIGN: left
+}
+p
+{
+    PADDING-RIGHT: 10px;
+    PADDING-LEFT: 10px;
+    PADDING-BOTTOM: 10px;
+    MARGIN: 5px;
+    PADDING-TOP: 10px;
+    TEXT-ALIGN: left
+}
+.middlep
+{
+    CLEAR: left;
+    TEXT-ALIGN: center
+}
+.clearfloat
+{
+    CLEAR: left
+}
+pre
+{
+    CLEAR: left;
+    BORDER-RIGHT: #336699 1px solid;
+    PADDING-RIGHT: 5px;
+    BORDER-TOP: #336699 1px solid;
+    PADDING-LEFT: 5px;
+    FONT-SIZE: 0.9em;
+    PADDING-BOTTOM: 5px;
+    MARGIN: 5px 10px;
+    BORDER-LEFT: #336699 1px solid;
+    COLOR: #000000;
+    PADDING-TOP: 5px;
+    BORDER-BOTTOM: #336699 1px solid;
+    BACKGROUND-COLOR: #e7e7e7
+
+   
+}
+
+
+.leftpt
+{
+    CLEAR: left;
+    PADDING-RIGHT: 5px;
+    PADDING-LEFT: 5px;
+    FONT-WEIGHT: bold;
+    PADDING-BOTTOM: 5px;
+    MARGIN: 15px 10px 5px;
+    COLOR: #000080;
+    PADDING-TOP: 5px;
+    BACKGROUND-COLOR: #ffffff;
+    TEXT-ALIGN: left
+}
+.middlept
+{
+    FONT-WEIGHT: bold;
+    COLOR: #000080;
+    TEXT-ALIGN: center
+}
+
+.htable {
+	border-collapse:collapse;
+}
+.htableheader {
+	margin:5px; 
+	padding: 8px;
+	border:1px solid #336699;
+	background-color:#336699;		
+	color:#FFFFFF;	
+	font-size: 9pt;	
+	font-weight:bold;
+}
+
+.htablerow {
+	margin:5px; 	
+	padding: 5px;
+	border:1px solid #336699;	
+	background-color:#FFFFFF;	
+	color:#000000;	
+	font-size: 9pt;
+}
+.htablerowOdd  {
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid #336699;
+	background-color:#EDF3FE;
+	color: #000000;
+	font-size: 9pt;
+}

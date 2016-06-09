@@ -1,0 +1,90 @@
+<html>
+<head>
+    <link rel=StyleSheet href=help.css>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Online Help</title>
+</head>
+
+<body>
+
+    <p class="masthead">global message rules </p>
+    <p class="nav">
+        <a href="#">Help/<a href="#">Administration/</a><a href="#">GlobalMessageRules</a>
+
+    </p>
+    <p class="posttitle">	Global Message Rules</p>
+    <p class="post">
+        Global Message Rules helps you to filter and manage incoming and
+        outgoing messages before they delivered to users mailbox or sent-out, by applying server
+        based rules that match a specific set of expressions. When a specified rule is
+        matched the associated actions will be executed in the order specified.<br>
+        <blockquote>
+            In order to better understand the message flow in the Lumi Mailserver
+            you can refer to
+            <a href="#" onclick="javascript:openImage('images/MessageFlow.png');">Message Flow diagram</a>.
+            <br>In short, when a message arrives or sent out from or to your server it will pass
+            through the <a href="#">Routing</a> which will resolve the actual destination of the message and
+            then will be passed to Global Message Rules. Once the message is filtered in
+            Global Message Rules it will be passed to User Message Rules (if the message is
+            not deleted or dropped in Global Message Rules), in which it will be filtered
+            and delivered to User's mailbox (again if the message is not deleted or dropped
+            in User Message Rules).
+        </blockquote>
+    <p class="post">
+        You can think of Global Message Rules as the virtual-domain-wide rules engine that
+        applies to all users and all incoming and outgoing messages.<br>
+        The Administrator can create Global Message Rules from the MailServerManager Interface;<br>
+        <i>MailServer &gt; MailStore &gt; Rules &gt; Message Rules &gt; Global</i>
+    </p>
+    <p class="posttitle">Create a new Global Message Rule</p>
+    <p class="post">
+        Click the New button from the toolbar to bring Add/Edit Global
+        Message dialog. Lets look at the fields in this dialog;<br><font color="#000080">
+            <strong>Description field</strong>
+        </font><strong>:</strong>&nbsp;&nbsp;&nbsp;&nbsp; This is a required field where you will
+        give a descriptive name for your new rule.<br><font color="#000080"><strong>Match Expression</strong></font><strong>:&nbsp;</strong>
+        Our expression (matching expression) for our new
+        rule. Refer to <a href="GRules-Expression.htm">Match Expression</a> for details.<br><font color="#000080">
+            <strong>Check button:</strong>
+        </font><strong>&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Clicking this button will check the validation of our Match Expression.<br>
+        <font color="#000080"><strong>Actions:&nbsp;&nbsp;</strong></font><strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        The type of actions to run when
+        Match Expression is met. Refer to <a href="GRules-Actions.htm">Actions</a> for
+        details.<br><font color="#000080"><strong>Enabled:</strong></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        If we uncheck this field our Rule will be simply disabled and checking will be
+        enable.<br><strong>C</strong><font color="#000080"><strong>heck Next Rule</strong>:</font>&nbsp;&nbsp;&nbsp;
+        Dropdown that defines the condition to check the next Rule in Global Message
+        Rules<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <font color="#000080">Always</font>: Always run the next rule once the current
+        rule is finished.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <font color="#000080">If this Rule Match</font>:
+        Run the next rule only-if this Rule's expression is matched (the result is true)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <font color="#000080">If this Rule does not Match</font>: Run the next rule
+        only-if this Rules' expression not matched (the result is false
+    </p>
+    <p class="post">
+        Once you define your new rule click OK to save and return to
+        Global Message Rules pane. Pay attention to Up and Down buttons on the right.
+        This two buttons help us to set the order of our rules, when we have more than
+        one rule defined. When you want to change the order of execution for your rules,
+        instead of removing and re-creating the rules you will simply change its order
+        by using these two buttons. The top-most rule will be the first rule that will
+        run. You can also double-click on any rule to bring the Edit Rule dialog besides
+        clicking Edit button from toolbar.&nbsp;If you see your rule name having a
+        strikethrough that means it is disabled by the admin, Edit the Rule and check
+        Enabled field to enable it back.
+    </p>
+    <p class="post">
+        In order to utilize the functionality of Global Message Rules,
+        pay special attention to the type of <a href="GRules-Expression.htm">
+            Match
+            Expression
+        </a> and <a href="GRules-Actions.htm">Actions</a> which contains
+        examples and provide inside to available scenarios. <br>
+    </p>
+    <p class="dateheader">Last Modified on 12/3/2016&nbsp;</p>
+    <p class="postfooter">DataSmart MailServer Help (c) 2016.</p>
+
+</body>
+
+</html>
