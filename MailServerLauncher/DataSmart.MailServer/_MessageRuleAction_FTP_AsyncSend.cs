@@ -34,6 +34,7 @@ namespace DataSmart.MailServer
 			SCore.StreamCopy(data, this.m_DataStream);
 			this.m_DataStream.Position = 0L;
 			Thread thread = new Thread(new ThreadStart(this.Send));
+            thread.Name = "FTP Async Send Thread";
 			thread.Start();
 		}
 

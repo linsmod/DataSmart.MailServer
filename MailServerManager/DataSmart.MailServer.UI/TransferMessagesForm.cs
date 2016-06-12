@@ -702,6 +702,7 @@ namespace DataSmart.MailServer.UI
 					this.m_pBack.Enabled = false;
 					this.m_pNext.Enabled = false;
 					Thread thread = new Thread(new ThreadStart(this.Start));
+                    thread.Name = "Message Transfer Thread";
 					thread.Start();
 				}
 				return;

@@ -186,6 +186,7 @@ namespace DataSmart.MailServer.UI
 		{
 			this.m_Run = true;
 			Thread thread = new Thread(new ThreadStart(this.Run));
+            thread.Name = "Mgmt Session Refresh Thread";
 			thread.Start();
 		}
 

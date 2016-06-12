@@ -145,6 +145,7 @@ namespace System.NetworkToolkit.SMTP.Relay
             m_pConnectionsPerIP  = new Dictionary<IPAddress,long>();
 
             Thread tr1 = new Thread(new ThreadStart(this.Run));
+            tr1.Name = "Relay Server Loop Thread";
             tr1.Start();
 
             m_pTimerTimeout = new TimerEx(30000);

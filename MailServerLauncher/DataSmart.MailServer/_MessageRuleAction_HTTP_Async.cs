@@ -18,7 +18,8 @@ namespace DataSmart.MailServer
 			this.m_Url = url;
 			this.m_pMessage = message;
 			Thread thread = new Thread(new ThreadStart(this.Post));
-			thread.Start();
+            thread.Name = "Message Rule Action HTTP Thread";
+            thread.Start();
 		}
 
 		private void Post()

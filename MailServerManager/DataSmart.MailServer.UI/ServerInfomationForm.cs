@@ -324,6 +324,7 @@ namespace DataSmart.MailServer.UI
 		{
 			this.m_Run = true;
 			Thread thread = new Thread(new ThreadStart(this.Run));
+            thread.Name = "Server Infomation Refresh Thread";
 			thread.Start();
 		}
 

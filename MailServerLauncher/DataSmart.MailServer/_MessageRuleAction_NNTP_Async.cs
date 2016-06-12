@@ -23,6 +23,7 @@ namespace DataSmart.MailServer
 			this.m_Newsgroup = newsgroup;
 			this.m_pMessageStream = message;
 			Thread thread = new Thread(new ThreadStart(this.Post));
+            thread.Name = "Message Rule Action NNTP Thread";
 			thread.Start();
 		}
 

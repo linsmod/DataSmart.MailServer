@@ -2198,7 +2198,7 @@ namespace DataSmart.MailServer
                             text2 = globalMessageRuleActionResult.ErrorText;
                         }
                     }
-                    if (globalMessageRule_CheckNextRule_enum != null && ((globalMessageRule_CheckNextRule_enum == (GlobalMessageRule_CheckNextRule)1 && !flag2) || (globalMessageRule_CheckNextRule_enum == (GlobalMessageRule_CheckNextRule)2 && flag2)))
+                    if (globalMessageRule_CheckNextRule_enum != GlobalMessageRule_CheckNextRule.Always && ((globalMessageRule_CheckNextRule_enum == (GlobalMessageRule_CheckNextRule)1 && !flag2) || (globalMessageRule_CheckNextRule_enum == (GlobalMessageRule_CheckNextRule)2 && flag2)))
                     {
                         break;
                     }
