@@ -238,6 +238,7 @@ namespace System.NetworkToolkit.SMTP.Server
                 // Check errors.
                 if(op.Error != null){
                     OnError(op.Error);
+                    return false;
                 }
                 // Remote host shut-down(Socket.ShutDown) socket.
                 if(op.BytesInBuffer == 0){

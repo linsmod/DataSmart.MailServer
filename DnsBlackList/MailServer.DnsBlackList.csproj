@@ -52,10 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataSmart.MailServer.Filters\DnsBlackListForm.resources" />
-    <EmbeddedResource Include="DataSmart.MailServer.Filters\MainForm.resources" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Core\MailServer.Core.csproj">
       <Project>{0db6742d-47ab-46c2-af69-d0b812dee512}</Project>
       <Name>MailServer.Core</Name>
@@ -64,6 +60,9 @@
       <Project>{7ab36ccf-5ffd-4780-a54e-a102eca028b5}</Project>
       <Name>System.NetworkToolkit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

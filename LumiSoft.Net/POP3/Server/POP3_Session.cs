@@ -231,6 +231,7 @@ namespace System.NetworkToolkit.POP3.Server
                 if (op.Error != null)
                 {
                     OnError(op.Error);
+                    return false;
                 }
                 // Remote host shut-down(Socket.ShutDown) socket.
                 if (op.BytesInBuffer == 0)

@@ -55,9 +55,9 @@ namespace DataSmart.MailServer.Management
 					" ",
 					limit.ToString(),
 					" ",
-					TextUtils.QuoteString(startTime.ToUniversalTime().ToString("yyyyMMddHHmmss")),
+					TextUtils.QuoteString(startTime.ToString("yyyyMMddHHmmss")),
 					" ",
-					TextUtils.QuoteString(endTime.ToUniversalTime().ToString("yyyyMMddHHmmss")),
+					TextUtils.QuoteString(endTime.ToString("yyyyMMddHHmmss")),
 					" ",
 					TextUtils.QuoteString(containsText)
 				}));
@@ -78,7 +78,7 @@ namespace DataSmart.MailServer.Management
 				{
 					foreach (DataRow dataRow in dataSet.Tables["LogSessions"].Rows)
 					{
-						list.Add(new LogSession(this.m_pVirtualServer, service, dataRow["SessionID"].ToString(), Convert.ToDateTime(dataRow["StartTime"]), ConvertEx.ToIPEndPoint(dataRow["RemoteEndPoint"].ToString(), new IPEndPoint(IPAddress.None, 0)), dataRow["UserName"].ToString()));
+						list.Add(new LogSession(this.m_pVirtualServer, service, dataRow["SessionID"].ToString(),DateTime.Parse(dataRow["StartTime"].ToString()), ConvertEx.ToIPEndPoint(dataRow["RemoteEndPoint"].ToString(), new IPEndPoint(IPAddress.None, 0)), dataRow["UserName"].ToString()));
 					}
 				}
 				result = list.ToArray();

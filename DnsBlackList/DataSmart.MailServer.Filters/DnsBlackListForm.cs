@@ -4,127 +4,137 @@ using System.Windows.Forms;
 
 namespace DataSmart.MailServer.Filters
 {
-	public class DnsBlackListForm : Form
-	{
-		private Label mt_Server;
+    public class DnsBlackListForm : Form
+    {
+        private Label mt_Server = null;
+        private ComboBox m_pServer = null;
+        private Label mt_RejectionText = null;
+        private TextBox m_pRejectionText = null;
+        private GroupBox m_pGroupBox1 = null;
+        private Button m_pCancel = null;
+        private Button m_pOk = null;
 
-		private ComboBox m_pServer;
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public DnsBlackListForm()
+        {
+            InitUI();
+        }
 
-		private Label mt_RejectionText;
+        #region method InitUI
 
-		private TextBox m_pRejectionText;
+        /// <summary>
+        /// Creates and initializes window UI.
+        /// </summary>
+        private void InitUI()
+        {
+            this.Size = new Size(400, 200);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.MaximizeBox = false;
+            this.Text = "DNSBL Entry Settings";
 
-		private GroupBox m_pGroupBox1;
+            mt_Server = new Label();
+            mt_Server.Size = new Size(100, 20);
+            mt_Server.Location = new Point(10, 10);
+            mt_Server.Text = "Server:";
 
-		private Button m_pCancel;
+            m_pServer = new ComboBox();
+            m_pServer.Size = new Size(370, 20);
+            m_pServer.Location = new Point(10, 30);
+            m_pServer.Items.Add("sbl-xbl.spamhaus.org");
+            m_pServer.Items.Add("bl.spamcop.net");
+            m_pServer.Items.Add("dnsbl.sorbs.net");
+            m_pServer.Items.Add("relays.ordb.org");
 
-		private Button m_pOk;
+            mt_RejectionText = new Label();
+            mt_RejectionText.Size = new Size(300, 20);
+            mt_RejectionText.Location = new Point(10, 60);
+            mt_RejectionText.Text = "Default rejection text: (if server won't provide TXT record)";
 
-		public string Server
-		{
-			get
-			{
-				return this.m_pServer.Text;
-			}
-		}
+            m_pRejectionText = new TextBox();
+            m_pRejectionText.Size = new Size(370, 20);
+            m_pRejectionText.Location = new Point(10, 80);
 
-		public string DefaultRejectionText
-		{
-			get
-			{
-				return this.m_pRejectionText.Text;
-			}
-		}
+            m_pGroupBox1 = new GroupBox();
+            m_pGroupBox1.Size = new Size(435, 4);
+            m_pGroupBox1.Location = new Point(5, 135);
 
-		public DnsBlackListForm()
-		{
-			this.InitializeComponent();
-		}
+            m_pCancel = new Button();
+            m_pCancel.Size = new Size(70, 20);
+            m_pCancel.Location = new Point(245, 145);
+            m_pCancel.Text = "Cancel";
+            m_pCancel.Click += new EventHandler(m_pCancel_Click);
 
-		private void InitializeComponent()
-		{
-			this.mt_Server = new Label();
-			this.m_pServer = new ComboBox();
-			this.mt_RejectionText = new Label();
-			this.m_pRejectionText = new TextBox();
-			this.m_pGroupBox1 = new GroupBox();
-			this.m_pCancel = new Button();
-			this.m_pOk = new Button();
-			base.SuspendLayout();
-			this.mt_Server.Location = new Point(10, 10);
-			this.mt_Server.Name = "mt_Server";
-			this.mt_Server.Size = new Size(100, 20);
-			this.mt_Server.TabIndex = 0;
-			this.mt_Server.Text = "Server:";
-			this.m_pServer.Items.AddRange(new object[]
-			{
-				"sbl-xbl.spamhaus.org",
-				"bl.spamcop.net",
-				"dnsbl.sorbs.net",
-				"relays.ordb.org"
-			});
-			this.m_pServer.Location = new Point(10, 30);
-			this.m_pServer.Name = "m_pServer";
-			this.m_pServer.Size = new Size(370, 21);
-			this.m_pServer.TabIndex = 1;
-			this.mt_RejectionText.Location = new Point(10, 60);
-			this.mt_RejectionText.Name = "mt_RejectionText";
-			this.mt_RejectionText.Size = new Size(300, 20);
-			this.mt_RejectionText.TabIndex = 2;
-			this.mt_RejectionText.Text = "Default rejection text: (if server won't provide TXT record)";
-			this.m_pRejectionText.Location = new Point(10, 80);
-			this.m_pRejectionText.Name = "m_pRejectionText";
-			this.m_pRejectionText.Size = new Size(370, 20);
-			this.m_pRejectionText.TabIndex = 3;
-			this.m_pGroupBox1.Location = new Point(5, 135);
-			this.m_pGroupBox1.Name = "m_pGroupBox1";
-			this.m_pGroupBox1.Size = new Size(370, 4);
-			this.m_pGroupBox1.TabIndex = 4;
-			this.m_pGroupBox1.TabStop = false;
-			this.m_pCancel.Location = new Point(235, 145);
-			this.m_pCancel.Name = "m_pCancel";
-			this.m_pCancel.Size = new Size(70, 23);
-			this.m_pCancel.TabIndex = 5;
-			this.m_pCancel.Text = "Cancel";
-			this.m_pCancel.Click += new EventHandler(this.m_pCancel_Click);
-			this.m_pOk.Location = new Point(310, 145);
-			this.m_pOk.Name = "m_pOk";
-			this.m_pOk.Size = new Size(70, 23);
-			this.m_pOk.TabIndex = 6;
-			this.m_pOk.Text = "Ok";
-			this.m_pOk.Click += new EventHandler(this.m_pOk_Click);
-			base.ClientSize = new Size(402, 182);
-			base.Controls.Add(this.mt_Server);
-			base.Controls.Add(this.m_pServer);
-			base.Controls.Add(this.mt_RejectionText);
-			base.Controls.Add(this.m_pRejectionText);
-			base.Controls.Add(this.m_pGroupBox1);
-			base.Controls.Add(this.m_pCancel);
-			base.Controls.Add(this.m_pOk);
-			base.FormBorderStyle = FormBorderStyle.FixedDialog;
-			base.MaximizeBox = false;
-			base.Name = "wfrm_DNSBL_Entry";
-			base.StartPosition = FormStartPosition.CenterScreen;
-			this.Text = "DNSBL Entry Settings";
-			base.ResumeLayout(false);
-			base.PerformLayout();
-		}
+            m_pOk = new Button();
+            m_pOk.Size = new Size(70, 20);
+            m_pOk.Location = new Point(320, 145);
+            m_pOk.Text = "Ok";
+            m_pOk.Click += new EventHandler(m_pOk_Click);
 
-		private void m_pCancel_Click(object sender, EventArgs e)
-		{
-			base.DialogResult = DialogResult.Cancel;
-			base.Close();
-		}
+            this.Controls.Add(mt_Server);
+            this.Controls.Add(m_pServer);
+            this.Controls.Add(mt_RejectionText);
+            this.Controls.Add(m_pRejectionText);
+            this.Controls.Add(m_pGroupBox1);
+            this.Controls.Add(m_pCancel);
+            this.Controls.Add(m_pOk);
+        }
 
-		private void m_pOk_Click(object sender, EventArgs e)
-		{
-			if (this.m_pServer.Text == "")
-			{
-				MessageBox.Show(this, "Server can't be empty !", "Error:", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-				return;
-			}
-			base.DialogResult = DialogResult.OK;
-			base.Close();
-		}
-	}
+        #endregion
+
+
+        #region Events Handling
+
+        #region method m_pCancel_Click
+
+        private void m_pCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        #endregion
+
+        #region method m_pOk_Click
+
+        private void m_pOk_Click(object sender, EventArgs e)
+        {
+            if (m_pServer.Text == "")
+            {
+                MessageBox.Show(this, "Server can't be empty !", "Error:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region Properties Implementation
+
+        /// <summary>
+        /// Gets DNSBL server.
+        /// </summary>
+        public string Server
+        {
+            get { return m_pServer.Text; }
+        }
+
+        /// <summary>
+        /// Gets default rejection text.
+        /// </summary>
+        public string DefaultRejectionText
+        {
+            get { return m_pRejectionText.Text; }
+        }
+
+        #endregion
+
+    }
 }

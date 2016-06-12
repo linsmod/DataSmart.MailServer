@@ -39,7 +39,8 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>LumiSoft.Net.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
@@ -199,6 +200,7 @@
     <Compile Include="IMAP\IMAP_t_orc_Unseen.cs" />
     <Compile Include="IMAP\Server\IMAP_Session.cs" />
     <Compile Include="Mail\Mail_t_Attachment.cs" />
+    <Compile Include="TimeHelper.cs" />
     <Compile Include="vCard\vCard_Utils.cs" />
     <Compile Include="_Obsolete\IMAP\IMAP_Fetch_DataItem_X_GM_MSGID.cs" />
     <Compile Include="_Obsolete\IMAP\IMAP_Fetch_DataItem_X_GM_THRID.cs" />

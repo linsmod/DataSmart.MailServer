@@ -606,7 +606,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -721,7 +721,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -759,7 +759,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -834,7 +834,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1012,7 +1012,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1066,7 +1066,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1118,7 +1118,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1164,7 +1164,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1204,7 +1204,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1253,7 +1253,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1284,7 +1284,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1309,7 +1309,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1325,7 +1325,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1362,8 +1362,8 @@ namespace DataSmart.MailServer.Monitoring
                     dataSet.Tables["LogSessions"].Columns.Add("RemoteEndPoint");
                     dataSet.Tables["LogSessions"].Columns.Add("UserName");
                     int num = ConvertEx.ToInt32(array[2]);
-                    DateTime t = DateTime.ParseExact(TextUtils.UnQuoteString(array[3]), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-                    DateTime t2 = DateTime.ParseExact(TextUtils.UnQuoteString(array[4]), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                    DateTime t = TimeHelper.Parse(TextUtils.UnQuoteString(array[3]));
+                    DateTime t2 = TimeHelper.Parse(TextUtils.UnQuoteString(array[4]));
                     string text = TextUtils.UnQuoteString(array[5]);
                     string text2;
                     if (array[1] == "SMTP")
@@ -1403,7 +1403,7 @@ namespace DataSmart.MailServer.Monitoring
                                 if (currentRow.Length == 6)
                                 {
                                     string text3 = currentRow[0];
-                                    DateTime dateTime = DateTime.ParseExact(TextUtils.UnQuoteString(array[1]), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                                    DateTime dateTime = DateTime.ParseExact(TextUtils.UnQuoteString(currentRow[1]), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
                                     string value = currentRow[2];
                                     string value2 = currentRow[3];
                                     string text4 = currentRow[5];
@@ -1444,7 +1444,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1474,7 +1474,7 @@ namespace DataSmart.MailServer.Monitoring
                     {
                         this.WriteLine("-ERR Specified virtual server with ID '" + argsText + "' doesn't exist !");
                     }
-                    DateTime dateTime = DateTime.ParseExact(TextUtils.UnQuoteString(array[3]), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                    DateTime dateTime = TimeHelper.Parse(TextUtils.UnQuoteString(array[3]));
                     DataSet dataSet = new DataSet("dsSessionLog");
                     dataSet.Tables.Add("SessionLog");
                     dataSet.Tables["SessionLog"].Columns.Add("LogText");
@@ -1535,7 +1535,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1575,7 +1575,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1598,7 +1598,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1726,7 +1726,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1752,7 +1752,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1789,7 +1789,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1815,7 +1815,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1846,7 +1846,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1877,7 +1877,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1908,7 +1908,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1933,7 +1933,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1964,7 +1964,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -1995,7 +1995,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2026,7 +2026,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2059,7 +2059,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2091,7 +2091,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2123,7 +2123,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2156,7 +2156,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2187,7 +2187,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2218,7 +2218,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2249,7 +2249,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2282,7 +2282,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2313,7 +2313,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2344,7 +2344,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2375,7 +2375,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2405,7 +2405,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2435,7 +2435,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2480,7 +2480,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2511,7 +2511,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2542,7 +2542,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2573,7 +2573,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2618,7 +2618,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2677,7 +2677,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2723,7 +2723,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2763,7 +2763,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2794,7 +2794,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2827,7 +2827,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2858,7 +2858,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2889,7 +2889,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2920,7 +2920,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2953,7 +2953,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -2985,7 +2985,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3016,7 +3016,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3049,7 +3049,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3080,7 +3080,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3111,7 +3111,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3136,7 +3136,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3167,7 +3167,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3198,7 +3198,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3229,7 +3229,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3273,7 +3273,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3304,7 +3304,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3335,7 +3335,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3360,7 +3360,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3391,7 +3391,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3422,7 +3422,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3453,7 +3453,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3486,7 +3486,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3517,7 +3517,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3548,7 +3548,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3581,7 +3581,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3612,7 +3612,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3643,7 +3643,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3668,7 +3668,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3699,7 +3699,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3730,7 +3730,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3761,7 +3761,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3794,7 +3794,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3825,7 +3825,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3856,7 +3856,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3887,7 +3887,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3912,7 +3912,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3943,7 +3943,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -3974,7 +3974,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4005,7 +4005,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4052,7 +4052,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4083,7 +4083,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4114,7 +4114,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4145,7 +4145,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4195,7 +4195,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4220,7 +4220,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4271,7 +4271,7 @@ namespace DataSmart.MailServer.Monitoring
                             }
                             catch (Exception ex)
                             {
-                                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                                this.WriteLine("-ERR " + ex.Message);
                                 return;
                             }
                             virtualServer.InternalService.AddFilter(TextUtils.UnQuoteString(array[1]), TextUtils.UnQuoteString(array[3]), type, TextUtils.UnQuoteString(array[4]), TextUtils.UnQuoteString(array[5]), Convert.ToInt64(array[2]), Convert.ToBoolean(TextUtils.UnQuoteString(array[6])));
@@ -4335,7 +4335,7 @@ namespace DataSmart.MailServer.Monitoring
                             }
                             catch (Exception ex)
                             {
-                                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                                this.WriteLine("-ERR " + ex.Message);
                                 return;
                             }
                             virtualServer.InternalService.UpdateFilter(TextUtils.UnQuoteString(array[1]), TextUtils.UnQuoteString(array[3]), type, TextUtils.UnQuoteString(array[4]), TextUtils.UnQuoteString(array[5]), Convert.ToInt64(array[2]), Convert.ToBoolean(TextUtils.UnQuoteString(array[6])));
@@ -4379,7 +4379,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4404,7 +4404,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4435,7 +4435,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4466,7 +4466,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4497,7 +4497,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4571,7 +4571,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4605,7 +4605,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4636,7 +4636,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4669,7 +4669,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4708,7 +4708,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 
@@ -4739,7 +4739,7 @@ namespace DataSmart.MailServer.Monitoring
             }
             catch (Exception ex)
             {
-                this.WriteLine("-ERR " + ex.Message + "\r\n" + ex.StackTrace);
+                this.WriteLine("-ERR " + ex.Message);
             }
         }
 

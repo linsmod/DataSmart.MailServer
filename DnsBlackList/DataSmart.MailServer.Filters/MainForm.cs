@@ -7,410 +7,483 @@ using System.Windows.Forms;
 
 namespace DataSmart.MailServer.Filters
 {
-	public class MainForm : Form
-	{
-		private TabControl m_pTab;
+    /// <summary>
+    /// Filter settings UI window.
+    /// </summary>
+    public class MainForm : Form
+    {
+        //--- Common UI
+        private TabControl m_pTab = null;
+        private GroupBox m_pGroupBox1 = null;
+        private Button m_pCancel = null;
+        private Button m_pOk = null;
+        //--- General UI
+        private CheckBox m_pGeneral_CheckHelo = null;
+        private CheckBox m_pGeneral_LogRejections = null;
+        //--- Black list UI
+        private Label mt_BlackList_ErrorText = null;
+        private TextBox m_pBlackList_ErrorText = null;
+        private TextBox m_pBlackList_IP = null;
+        private Button m_pBlackList_Add = null;
+        private ListBox m_pBlackList_IPs = null;
+        private Button m_pBlackList_Remove = null;
+        //--- DNSBL UI
+        private ListView m_pServers = null;
+        private Button m_pAdd = null;
+        private Button m_pDelete = null;
+        private Button m_pMoveUp = null;
+        private Button m_pMoveDown = null;
 
-		private GroupBox m_pGroupBox1;
+        private DataSet m_pDsSettings = null;
 
-		private Button m_pCancel;
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public MainForm()
+        {
+            InitUI();
 
-		private Button m_pOk;
+            LoadSettings();
+        }
 
-		private CheckBox m_pGeneral_CheckHelo;
+        #region method InitUI
 
-		private CheckBox m_pGeneral_LogRejections;
+        /// <summary>
+        /// Creates and initializes window UI.
+        /// </summary>
+        private void InitUI()
+        {
+            this.Size = new Size(470, 300);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.MaximizeBox = false;
+            this.Text = "LumiSoft DNSBL Filter Settings";
 
-		private Label mt_BlackList_ErrorText;
+            //--- Common UI ----------------------------------------------------------------------------------//
+            m_pTab = new TabControl();
+            m_pTab.Size = new Size(457, 220);
+            m_pTab.Location = new Point(3, 3);
+            m_pTab.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            m_pTab.TabPages.Add("General");
+            m_pTab.TabPages.Add("Black List");
+            m_pTab.TabPages.Add("DNSBL");
 
-		private TextBox m_pBlackList_ErrorText;
+            m_pGroupBox1 = new GroupBox();
+            m_pGroupBox1.Size = new Size(455, 4);
+            m_pGroupBox1.Location = new Point(5, 235);
 
-		private TextBox m_pBlackList_IP;
+            m_pCancel = new Button();
+            m_pCancel.Size = new Size(70, 20);
+            m_pCancel.Location = new Point(305, 245);
+            m_pCancel.Text = "Cancel";
+            m_pCancel.Click += new EventHandler(m_pCancel_Click);
 
-		private Button m_pBlackList_Add;
+            m_pOk = new Button();
+            m_pOk.Size = new Size(70, 20);
+            m_pOk.Location = new Point(380, 245);
+            m_pOk.Text = "Ok";
+            m_pOk.Click += new EventHandler(m_pOk_Click);
 
-		private ListBox m_pBlackList_IPs;
+            this.Controls.Add(m_pTab);
+            this.Controls.Add(m_pGroupBox1);
+            this.Controls.Add(m_pCancel);
+            this.Controls.Add(m_pOk);
+            //-----------------------------------------------------------------------------------------------//
 
-		private Button m_pBlackList_Remove;
+            //--- Tabpage General UI ------------------------------------------------------------------------//
+            m_pGeneral_CheckHelo = new CheckBox();
+            m_pGeneral_CheckHelo.Size = new Size(350, 20);
+            m_pGeneral_CheckHelo.Location = new Point(20, 20);
+            m_pGeneral_CheckHelo.Text = "Check HELO/EHLO name for non authenticated users";
 
-		private ListView m_pServers;
+            m_pGeneral_LogRejections = new CheckBox();
+            m_pGeneral_LogRejections.Size = new Size(350, 20);
+            m_pGeneral_LogRejections.Location = new Point(20, 40);
+            m_pGeneral_LogRejections.Text = "Log rejections";
 
-		private Button m_pAdd;
+            m_pTab.TabPages[0].Controls.Add(m_pGeneral_CheckHelo);
+            m_pTab.TabPages[0].Controls.Add(m_pGeneral_LogRejections);
+            //-----------------------------------------------------------------------------------------------//
 
-		private Button m_pDelete;
+            //--- Tabpage Black List UI ---------------------------------------------------------------------//
+            mt_BlackList_ErrorText = new Label();
+            mt_BlackList_ErrorText.Size = new Size(70, 20);
+            mt_BlackList_ErrorText.Location = new Point(0, 20);
+            mt_BlackList_ErrorText.TextAlign = ContentAlignment.MiddleRight;
+            mt_BlackList_ErrorText.Text = "Error Text:";
 
-		private Button m_pMoveUp;
+            m_pBlackList_ErrorText = new TextBox();
+            m_pBlackList_ErrorText.Size = new Size(370, 20);
+            m_pBlackList_ErrorText.Location = new Point(75, 20);
 
-		private Button m_pMoveDown;
+            m_pBlackList_IP = new TextBox();
+            m_pBlackList_IP.Size = new Size(200, 20);
+            m_pBlackList_IP.Location = new Point(75, 45);
 
-		private TabPage tabPage1;
+            m_pBlackList_Add = new Button();
+            m_pBlackList_Add.Size = new Size(70, 20);
+            m_pBlackList_Add.Location = new Point(280, 45);
+            m_pBlackList_Add.Text = "Add";
+            m_pBlackList_Add.Click += new EventHandler(m_pBlackList_Add_Click);
 
-		private TabPage tabPage2;
+            m_pBlackList_IPs = new ListBox();
+            m_pBlackList_IPs.Size = new Size(200, 130);
+            m_pBlackList_IPs.Location = new Point(75, 70);
+            m_pBlackList_IPs.SelectedIndexChanged += new EventHandler(m_pBlackList_IPs_SelectedIndexChanged);
 
-		private TabPage tabPage3;
+            m_pBlackList_Remove = new Button();
+            m_pBlackList_Remove.Size = new Size(70, 20);
+            m_pBlackList_Remove.Location = new Point(280, 70);
+            m_pBlackList_Remove.Text = "Remove";
+            m_pBlackList_Remove.Click += new EventHandler(m_pBlackList_Remove_Click);
 
-		private DataSet m_pDsSettings;
+            m_pTab.TabPages[1].Controls.Add(mt_BlackList_ErrorText);
+            m_pTab.TabPages[1].Controls.Add(m_pBlackList_ErrorText);
+            m_pTab.TabPages[1].Controls.Add(m_pBlackList_IP);
+            m_pTab.TabPages[1].Controls.Add(m_pBlackList_Add);
+            m_pTab.TabPages[1].Controls.Add(m_pBlackList_IPs);
+            m_pTab.TabPages[1].Controls.Add(m_pBlackList_Remove);
+            //-----------------------------------------------------------------------------------------------//
 
-		public MainForm()
-		{
-			this.InitializeComponent();
-			this.LoadSettings();
-		}
+            //--- Tabpage DNSBL UI --------------------------------------------------------------------------//
+            m_pServers = new ListView();
+            m_pServers.Size = new Size(350, 150);
+            m_pServers.Location = new Point(10, 20);
+            m_pServers.View = View.Details;
+            m_pServers.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            m_pServers.MultiSelect = false;
+            m_pServers.FullRowSelect = true;
+            m_pServers.HideSelection = false;
+            m_pServers.SelectedIndexChanged += new EventHandler(m_pServers_SelectedIndexChanged);
+            m_pServers.Columns.Add("Server", 150);
+            m_pServers.Columns.Add("Default Rejection Text", 150);
 
-		private void InitializeComponent()
-		{
-			this.m_pTab = new TabControl();
-			this.tabPage1 = new TabPage();
-			this.tabPage2 = new TabPage();
-			this.tabPage3 = new TabPage();
-			this.m_pGeneral_CheckHelo = new CheckBox();
-			this.m_pGeneral_LogRejections = new CheckBox();
-			this.mt_BlackList_ErrorText = new Label();
-			this.m_pBlackList_ErrorText = new TextBox();
-			this.m_pBlackList_IP = new TextBox();
-			this.m_pBlackList_Add = new Button();
-			this.m_pBlackList_IPs = new ListBox();
-			this.m_pBlackList_Remove = new Button();
-			this.m_pServers = new ListView();
-			this.m_pAdd = new Button();
-			this.m_pDelete = new Button();
-			this.m_pMoveUp = new Button();
-			this.m_pMoveDown = new Button();
-			this.m_pGroupBox1 = new GroupBox();
-			this.m_pCancel = new Button();
-			this.m_pOk = new Button();
-			this.m_pTab.SuspendLayout();
-			base.SuspendLayout();
-			this.m_pTab.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right);
-			this.m_pTab.Controls.Add(this.tabPage1);
-			this.m_pTab.Controls.Add(this.tabPage2);
-			this.m_pTab.Controls.Add(this.tabPage3);
-			this.m_pTab.Location = new Point(3, 3);
-			this.m_pTab.Name = "m_pTab";
-			this.m_pTab.SelectedIndex = 0;
-			this.m_pTab.Size = new Size(457, 236);
-			this.m_pTab.TabIndex = 0;
-			this.tabPage1.Location = new Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Size = new Size(449, 194);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "General";
-			this.tabPage1.Visible = false;
-			this.tabPage2.Location = new Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Size = new Size(449, 194);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "Black List";
-			this.tabPage2.Visible = false;
-			this.tabPage3.Location = new Point(4, 22);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new Size(449, 210);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "DNSBL";
-			this.tabPage3.Visible = false;
-			this.m_pGeneral_CheckHelo.Location = new Point(20, 20);
-			this.m_pGeneral_CheckHelo.Name = "m_pGeneral_CheckHelo";
-			this.m_pGeneral_CheckHelo.Size = new Size(350, 20);
-			this.m_pGeneral_CheckHelo.TabIndex = 0;
-			this.m_pGeneral_CheckHelo.Text = "Check HELO/EHLO name for non authenticated users";
-			this.m_pGeneral_LogRejections.Location = new Point(20, 40);
-			this.m_pGeneral_LogRejections.Name = "m_pGeneral_LogRejections";
-			this.m_pGeneral_LogRejections.Size = new Size(350, 20);
-			this.m_pGeneral_LogRejections.TabIndex = 0;
-			this.m_pGeneral_LogRejections.Text = "Log rejections";
-			this.mt_BlackList_ErrorText.Location = new Point(0, 20);
-			this.mt_BlackList_ErrorText.Name = "mt_BlackList_ErrorText";
-			this.mt_BlackList_ErrorText.Size = new Size(70, 20);
-			this.mt_BlackList_ErrorText.TabIndex = 0;
-			this.mt_BlackList_ErrorText.Text = "Error Text:";
-			this.mt_BlackList_ErrorText.TextAlign = ContentAlignment.MiddleRight;
-			this.m_pBlackList_ErrorText.Location = new Point(75, 20);
-			this.m_pBlackList_ErrorText.Name = "m_pBlackList_ErrorText";
-			this.m_pBlackList_ErrorText.Size = new Size(370, 20);
-			this.m_pBlackList_ErrorText.TabIndex = 0;
-			this.m_pBlackList_IP.Location = new Point(75, 45);
-			this.m_pBlackList_IP.Name = "m_pBlackList_IP";
-			this.m_pBlackList_IP.Size = new Size(200, 20);
-			this.m_pBlackList_IP.TabIndex = 0;
-			this.m_pBlackList_Add.Location = new Point(280, 45);
-			this.m_pBlackList_Add.Name = "m_pBlackList_Add";
-			this.m_pBlackList_Add.Size = new Size(70, 20);
-			this.m_pBlackList_Add.TabIndex = 0;
-			this.m_pBlackList_Add.Text = "Add";
-			this.m_pBlackList_Add.Click += new EventHandler(this.m_pBlackList_Add_Click);
-			this.m_pBlackList_IPs.Location = new Point(75, 70);
-			this.m_pBlackList_IPs.Name = "m_pBlackList_IPs";
-			this.m_pBlackList_IPs.Size = new Size(200, 130);
-			this.m_pBlackList_IPs.TabIndex = 0;
-			this.m_pBlackList_IPs.SelectedIndexChanged += new EventHandler(this.m_pBlackList_IPs_SelectedIndexChanged);
-			this.m_pBlackList_Remove.Location = new Point(280, 70);
-			this.m_pBlackList_Remove.Name = "m_pBlackList_Remove";
-			this.m_pBlackList_Remove.Size = new Size(70, 20);
-			this.m_pBlackList_Remove.TabIndex = 0;
-			this.m_pBlackList_Remove.Text = "Remove";
-			this.m_pBlackList_Remove.Click += new EventHandler(this.m_pBlackList_Remove_Click);
-			this.m_pServers.FullRowSelect = true;
-			this.m_pServers.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-			this.m_pServers.HideSelection = false;
-			this.m_pServers.Location = new Point(10, 20);
-			this.m_pServers.MultiSelect = false;
-			this.m_pServers.Name = "m_pServers";
-			this.m_pServers.Size = new Size(350, 150);
-			this.m_pServers.TabIndex = 0;
-			this.m_pServers.UseCompatibleStateImageBehavior = false;
-			this.m_pServers.View = View.Details;
-			this.m_pServers.SelectedIndexChanged += new EventHandler(this.m_pServers_SelectedIndexChanged);
-			this.m_pAdd.Location = new Point(370, 20);
-			this.m_pAdd.Name = "m_pAdd";
-			this.m_pAdd.Size = new Size(70, 20);
-			this.m_pAdd.TabIndex = 0;
-			this.m_pAdd.Text = "Add";
-			this.m_pAdd.Click += new EventHandler(this.m_pAdd_Click);
-			this.m_pDelete.Location = new Point(370, 45);
-			this.m_pDelete.Name = "m_pDelete";
-			this.m_pDelete.Size = new Size(70, 20);
-			this.m_pDelete.TabIndex = 0;
-			this.m_pDelete.Text = "Delete";
-			this.m_pDelete.Click += new EventHandler(this.m_pDelete_Click);
-			this.m_pMoveUp.Location = new Point(370, 85);
-			this.m_pMoveUp.Name = "m_pMoveUp";
-			this.m_pMoveUp.Size = new Size(70, 20);
-			this.m_pMoveUp.TabIndex = 0;
-			this.m_pMoveUp.Text = "Up";
-			this.m_pMoveUp.Click += new EventHandler(this.m_pMoveUp_Click);
-			this.m_pMoveDown.Location = new Point(370, 110);
-			this.m_pMoveDown.Name = "m_pMoveDown";
-			this.m_pMoveDown.Size = new Size(70, 20);
-			this.m_pMoveDown.TabIndex = 0;
-			this.m_pMoveDown.Text = "Down";
-			this.m_pMoveDown.Click += new EventHandler(this.m_pMoveDown_Click);
-			this.m_pGroupBox1.Location = new Point(5, 235);
-			this.m_pGroupBox1.Name = "m_pGroupBox1";
-			this.m_pGroupBox1.Size = new Size(455, 4);
-			this.m_pGroupBox1.TabIndex = 1;
-			this.m_pGroupBox1.TabStop = false;
-			this.m_pCancel.Location = new Point(305, 245);
-			this.m_pCancel.Name = "m_pCancel";
-			this.m_pCancel.Size = new Size(70, 23);
-			this.m_pCancel.TabIndex = 2;
-			this.m_pCancel.Text = "Cancel";
-			this.m_pCancel.Click += new EventHandler(this.m_pCancel_Click);
-			this.m_pOk.Location = new Point(380, 245);
-			this.m_pOk.Name = "m_pOk";
-			this.m_pOk.Size = new Size(70, 23);
-			this.m_pOk.TabIndex = 3;
-			this.m_pOk.Text = "Ok";
-			this.m_pOk.Click += new EventHandler(this.m_pOk_Click);
-			base.ClientSize = new Size(454, 277);
-			base.Controls.Add(this.m_pTab);
-			base.Controls.Add(this.m_pGroupBox1);
-			base.Controls.Add(this.m_pCancel);
-			base.Controls.Add(this.m_pOk);
-			base.FormBorderStyle = FormBorderStyle.FixedDialog;
-			base.MaximizeBox = false;
-			base.Name = "wfrm_Main";
-			base.StartPosition = FormStartPosition.CenterScreen;
-			this.Text = "Mail Server DNSBL Filter Settings";
-			this.m_pTab.ResumeLayout(false);
-			base.ResumeLayout(false);
-		}
+            m_pAdd = new Button();
+            m_pAdd.Size = new Size(70, 20);
+            m_pAdd.Location = new Point(370, 20);
+            m_pAdd.Text = "Add";
+            m_pAdd.Click += new EventHandler(m_pAdd_Click);
 
-		private void m_pBlackList_Add_Click(object sender, EventArgs e)
-		{
-			foreach (string text in this.m_pBlackList_IPs.Items)
-			{
-				if (text.ToLower() == this.m_pBlackList_IP.Text.ToLower())
-				{
-					this.m_pBlackList_IP.Text = "";
-					return;
-				}
-			}
-			this.m_pBlackList_IPs.Items.Add(this.m_pBlackList_IP.Text);
-			this.m_pBlackList_IP.Text = "";
-		}
+            m_pDelete = new Button();
+            m_pDelete.Size = new Size(70, 20);
+            m_pDelete.Location = new Point(370, 45);
+            m_pDelete.Text = "Delete";
+            m_pDelete.Click += new EventHandler(m_pDelete_Click);
 
-		private void m_pBlackList_IPs_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (this.m_pBlackList_IPs.SelectedItems.Count > 0)
-			{
-				this.m_pBlackList_Remove.Enabled = true;
-				return;
-			}
-			this.m_pBlackList_Remove.Enabled = false;
-		}
+            m_pMoveUp = new Button();
+            m_pMoveUp.Size = new Size(70, 20);
+            m_pMoveUp.Location = new Point(370, 85);
+            m_pMoveUp.Text = "Up";
+            m_pMoveUp.Click += new EventHandler(m_pMoveUp_Click);
 
-		private void m_pBlackList_Remove_Click(object sender, EventArgs e)
-		{
-			while (this.m_pBlackList_IPs.SelectedItems.Count > 0)
-			{
-				this.m_pBlackList_IPs.Items.Remove(this.m_pBlackList_IPs.SelectedItems[0]);
-			}
-		}
+            m_pMoveDown = new Button();
+            m_pMoveDown.Size = new Size(70, 20);
+            m_pMoveDown.Location = new Point(370, 110);
+            m_pMoveDown.Text = "Down";
+            m_pMoveDown.Click += new EventHandler(m_pMoveDown_Click);
 
-		private void m_pServers_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (this.m_pServers.SelectedItems.Count > 0)
-			{
-				this.m_pDelete.Enabled = true;
-				if (this.m_pServers.Items.Count > 0)
-				{
-					if (this.m_pServers.SelectedItems[0].Index > 0)
-					{
-						this.m_pMoveUp.Enabled = true;
-					}
-					if (this.m_pServers.SelectedItems[0].Index < this.m_pServers.Items.Count - 1)
-					{
-						this.m_pMoveDown.Enabled = true;
-						return;
-					}
-				}
-			}
-			else
-			{
-				this.m_pDelete.Enabled = false;
-				this.m_pMoveUp.Enabled = false;
-				this.m_pMoveDown.Enabled = false;
-			}
-		}
+            m_pTab.TabPages[2].Controls.Add(m_pServers);
+            m_pTab.TabPages[2].Controls.Add(m_pAdd);
+            m_pTab.TabPages[2].Controls.Add(m_pDelete);
+            m_pTab.TabPages[2].Controls.Add(m_pMoveUp);
+            m_pTab.TabPages[2].Controls.Add(m_pMoveDown);
+            //--------------------------------------------------------------------------------------------//           
+        }
 
-		private void m_pAdd_Click(object sender, EventArgs e)
-		{
-			DnsBlackListForm dnsBlackListForm = new DnsBlackListForm();
-			if (dnsBlackListForm.ShowDialog() == DialogResult.OK)
-			{
-				DataRow dataRow = this.m_pDsSettings.Tables["Servers"].NewRow();
-				dataRow["Cost"] = DateTime.Now.Ticks;
-				dataRow["Server"] = dnsBlackListForm.Server;
-				dataRow["DefaultRejectionText"] = dnsBlackListForm.DefaultRejectionText;
-				this.m_pDsSettings.Tables["Servers"].Rows.Add(dataRow);
-				ListViewItem listViewItem = new ListViewItem();
-				listViewItem.Tag = dataRow;
-				listViewItem.Text = dnsBlackListForm.Server;
-				listViewItem.SubItems.Add(dnsBlackListForm.DefaultRejectionText);
-				this.m_pServers.Items.Add(listViewItem);
-			}
-		}
+        #endregion
 
-		private void m_pDelete_Click(object sender, EventArgs e)
-		{
-			if (this.m_pServers.SelectedItems.Count > 0)
-			{
-				((DataRow)this.m_pServers.SelectedItems[0].Tag).Delete();
-				this.m_pServers.SelectedItems[0].Remove();
-			}
-		}
 
-		private void m_pMoveUp_Click(object sender, EventArgs e)
-		{
-			if (this.m_pServers.SelectedItems.Count > 0 && this.m_pServers.SelectedItems[0].Index > 0)
-			{
-				this.SwapItems(this.m_pServers.SelectedItems[0], this.m_pServers.Items[this.m_pServers.SelectedItems[0].Index - 1]);
-			}
-		}
+        #region Events Handling
 
-		private void m_pMoveDown_Click(object sender, EventArgs e)
-		{
-			if (this.m_pServers.SelectedItems.Count > 0 && this.m_pServers.SelectedItems[0].Index < this.m_pServers.Items.Count - 1)
-			{
-				this.SwapItems(this.m_pServers.SelectedItems[0], this.m_pServers.Items[this.m_pServers.SelectedItems[0].Index + 1]);
-			}
-		}
+        #region method m_pBlackList_Add_Click
 
-		private void m_pCancel_Click(object sender, EventArgs e)
-		{
-			base.DialogResult = DialogResult.Cancel;
-			base.Close();
-		}
+        private void m_pBlackList_Add_Click(object sender, EventArgs e)
+        {
+            // Check that specified item already doesn't exist.
+            foreach (string item in m_pBlackList_IPs.Items)
+            {
+                if (item.ToLower() == m_pBlackList_IP.Text.ToLower())
+                {
+                    m_pBlackList_IP.Text = "";
+                    return;
+                }
+            }
 
-		private void m_pOk_Click(object sender, EventArgs e)
-		{
-			this.SaveSettings();
-			base.DialogResult = DialogResult.OK;
-			base.Close();
-		}
+            m_pBlackList_IPs.Items.Add(m_pBlackList_IP.Text);
+            m_pBlackList_IP.Text = "";
+        }
 
-		private void LoadSettings()
-		{
-			this.m_pDsSettings = new DataSet();
-			this.m_pDsSettings.Tables.Add("General");
-			this.m_pDsSettings.Tables["General"].Columns.Add("CheckHelo");
-			this.m_pDsSettings.Tables["General"].Columns.Add("LogRejections");
-			this.m_pDsSettings.Tables.Add("BlackListSettings");
-			this.m_pDsSettings.Tables["BlackListSettings"].Columns.Add("ErrorText");
-			this.m_pDsSettings.Tables.Add("BlackList");
-			this.m_pDsSettings.Tables["BlackList"].Columns.Add("IP");
-			this.m_pDsSettings.Tables.Add("Servers");
-			this.m_pDsSettings.Tables["Servers"].Columns.Add("Cost");
-			this.m_pDsSettings.Tables["Servers"].Columns.Add("Server");
-			this.m_pDsSettings.Tables["Servers"].Columns.Add("DefaultRejectionText");
-			if (File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\DnsBlackList.xml"))
-			{
-				this.m_pDsSettings.ReadXml(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\DnsBlackList.xml");
-			}
-			if (this.m_pDsSettings.Tables["General"].Rows.Count == 0)
-			{
-				DataRow dataRow = this.m_pDsSettings.Tables["General"].NewRow();
-				dataRow["CheckHelo"] = false;
-				dataRow["LogRejections"] = false;
-				this.m_pDsSettings.Tables["General"].Rows.Add(dataRow);
-			}
-			this.m_pGeneral_CheckHelo.Checked = ConvertEx.ToBoolean(this.m_pDsSettings.Tables["General"].Rows[0]["CheckHelo"]);
-			this.m_pGeneral_LogRejections.Checked = ConvertEx.ToBoolean(this.m_pDsSettings.Tables["General"].Rows[0]["LogRejections"]);
-			if (this.m_pDsSettings.Tables["BlackListSettings"].Rows.Count == 0)
-			{
-				DataRow dataRow2 = this.m_pDsSettings.Tables["BlackListSettings"].NewRow();
-				dataRow2["ErrorText"] = "Your IP is in server black list !";
-				this.m_pDsSettings.Tables["BlackListSettings"].Rows.Add(dataRow2);
-			}
-			this.m_pBlackList_ErrorText.Text = this.m_pDsSettings.Tables["BlackListSettings"].Rows[0]["ErrorText"].ToString();
-			foreach (DataRow dataRow3 in this.m_pDsSettings.Tables["BlackList"].Rows)
-			{
-				this.m_pBlackList_IPs.Items.Add(dataRow3["IP"].ToString());
-			}
-			foreach (DataRow dataRow4 in this.m_pDsSettings.Tables["Servers"].Rows)
-			{
-				ListViewItem listViewItem = new ListViewItem();
-				listViewItem.Tag = dataRow4;
-				listViewItem.Text = dataRow4["Server"].ToString();
-				listViewItem.SubItems.Add(dataRow4["DefaultRejectionText"].ToString());
-				this.m_pServers.Items.Add(listViewItem);
-			}
-			this.m_pServers_SelectedIndexChanged(this, new EventArgs());
-		}
+        #endregion
 
-		private void SaveSettings()
-		{
-			this.m_pDsSettings.Tables["General"].Rows[0]["CheckHelo"] = this.m_pGeneral_CheckHelo.Checked;
-			this.m_pDsSettings.Tables["General"].Rows[0]["LogRejections"] = this.m_pGeneral_LogRejections.Checked;
-			this.m_pDsSettings.WriteXml(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\DnsBlackList.xml");
-		}
+        #region method m_pBlackList_IPs_SelectedIndexChanged
 
-		private void SwapItems(ListViewItem item1, ListViewItem item2)
-		{
-			DataRow dataRow = (DataRow)item1.Tag;
-			DataRow dataRow2 = (DataRow)item2.Tag;
-			string value = dataRow["Cost"].ToString();
-			string text = dataRow["Server"].ToString();
-			string text2 = dataRow["DefaultRejectionText"].ToString();
-			dataRow["Cost"] = dataRow2["Cost"];
-			dataRow["Server"] = dataRow2["Server"];
-			dataRow["DefaultRejectionText"] = dataRow2["DefaultRejectionText"];
-			dataRow2["Cost"] = value;
-			dataRow2["Server"] = text;
-			dataRow2["DefaultRejectionText"] = text2;
-			item1.Text = item2.Text;
-			item1.SubItems[1].Text = item2.SubItems[1].Text;
-			item2.Text = text;
-			item2.SubItems[1].Text = text2;
-			if (item1.Selected)
-			{
-				item2.Selected = true;
-				return;
-			}
-			if (item2.Selected)
-			{
-				item1.Selected = true;
-			}
-		}
-	}
+        private void m_pBlackList_IPs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (m_pBlackList_IPs.SelectedItems.Count > 0)
+            {
+                m_pBlackList_Remove.Enabled = true;
+            }
+            else
+            {
+                m_pBlackList_Remove.Enabled = false;
+            }
+        }
+
+        #endregion
+
+        #region method m_pBlackList_Remove_Click
+
+        private void m_pBlackList_Remove_Click(object sender, EventArgs e)
+        {
+            while (m_pBlackList_IPs.SelectedItems.Count > 0)
+            {
+                m_pBlackList_IPs.Items.Remove(m_pBlackList_IPs.SelectedItems[0]);
+            }
+        }
+
+        #endregion
+
+
+        #region method m_pServers_SelectedIndexChanged
+
+        private void m_pServers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (m_pServers.SelectedItems.Count > 0)
+            {
+                m_pDelete.Enabled = true;
+                if (m_pServers.Items.Count > 0)
+                {
+                    if (m_pServers.SelectedItems[0].Index > 0)
+                    {
+                        m_pMoveUp.Enabled = true;
+                    }
+                    if (m_pServers.SelectedItems[0].Index < (m_pServers.Items.Count - 1))
+                    {
+                        m_pMoveDown.Enabled = true;
+                    }
+                }
+            }
+            else
+            {
+                m_pDelete.Enabled = false;
+                m_pMoveUp.Enabled = false;
+                m_pMoveDown.Enabled = false;
+            }
+        }
+
+        #endregion
+
+        #region method m_pAdd_Click
+
+        private void m_pAdd_Click(object sender, EventArgs e)
+        {
+            DnsBlackListForm frm = new DnsBlackListForm();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                DataRow dr = m_pDsSettings.Tables["Servers"].NewRow();
+                dr["Cost"] = DateTime.Now.Ticks;
+                dr["Server"] = frm.Server;
+                dr["DefaultRejectionText"] = frm.DefaultRejectionText;
+                m_pDsSettings.Tables["Servers"].Rows.Add(dr);
+
+                ListViewItem it = new ListViewItem();
+                it.Tag = dr;
+                it.Text = frm.Server;
+                it.SubItems.Add(frm.DefaultRejectionText);
+                m_pServers.Items.Add(it);
+            }
+        }
+
+        #endregion
+
+        #region method m_pDelete_Click
+
+        private void m_pDelete_Click(object sender, EventArgs e)
+        {
+            if (m_pServers.SelectedItems.Count > 0)
+            {
+                ((DataRow)m_pServers.SelectedItems[0].Tag).Delete();
+                m_pServers.SelectedItems[0].Remove();
+            }
+        }
+
+        #endregion
+
+        #region method m_pMoveUp_Click
+
+        private void m_pMoveUp_Click(object sender, EventArgs e)
+        {
+            if (m_pServers.SelectedItems.Count > 0 && m_pServers.SelectedItems[0].Index > 0)
+            {
+                SwapItems(m_pServers.SelectedItems[0], m_pServers.Items[m_pServers.SelectedItems[0].Index - 1]);
+            }
+        }
+
+        #endregion
+
+        #region method m_pMoveDown_Click
+
+        private void m_pMoveDown_Click(object sender, EventArgs e)
+        {
+            if (m_pServers.SelectedItems.Count > 0 && m_pServers.SelectedItems[0].Index < m_pServers.Items.Count - 1)
+            {
+                SwapItems(m_pServers.SelectedItems[0], m_pServers.Items[m_pServers.SelectedItems[0].Index + 1]);
+            }
+        }
+
+        #endregion
+
+
+        #region method m_pCancel_Click
+
+        private void m_pCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        #endregion
+
+        #region method m_pOk_Click
+
+        private void m_pOk_Click(object sender, EventArgs e)
+        {
+            SaveSettings();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region method LoadSettings
+
+        /// <summary>
+        /// Loads settings from xml file to UI.
+        /// </summary>
+        private void LoadSettings()
+        {
+            m_pDsSettings = new DataSet();
+            m_pDsSettings.Tables.Add("General");
+            m_pDsSettings.Tables["General"].Columns.Add("CheckHelo");
+            m_pDsSettings.Tables["General"].Columns.Add("LogRejections");
+            m_pDsSettings.Tables.Add("BlackListSettings");
+            m_pDsSettings.Tables["BlackListSettings"].Columns.Add("ErrorText");
+            m_pDsSettings.Tables.Add("BlackList");
+            m_pDsSettings.Tables["BlackList"].Columns.Add("IP");
+            m_pDsSettings.Tables.Add("Servers");
+            m_pDsSettings.Tables["Servers"].Columns.Add("Cost");
+            m_pDsSettings.Tables["Servers"].Columns.Add("Server");
+            m_pDsSettings.Tables["Servers"].Columns.Add("DefaultRejectionText");
+
+            if (File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\lsDNSBL_Filter_db.xml"))
+            {
+                m_pDsSettings.ReadXml(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\lsDNSBL_Filter_db.xml");
+            }
+
+            //--- Load general ----------------------------------------------------------------------------------//
+            // If no default settings, create them.
+            if (m_pDsSettings.Tables["General"].Rows.Count == 0)
+            {
+                DataRow dr = m_pDsSettings.Tables["General"].NewRow();
+                dr["CheckHelo"] = false;
+                dr["LogRejections"] = false;
+                m_pDsSettings.Tables["General"].Rows.Add(dr);
+            }
+
+            m_pGeneral_CheckHelo.Checked = ConvertEx.ToBoolean(m_pDsSettings.Tables["General"].Rows[0]["CheckHelo"]);
+            m_pGeneral_LogRejections.Checked = ConvertEx.ToBoolean(m_pDsSettings.Tables["General"].Rows[0]["LogRejections"]);
+            //----------------------------------------------------------------------------------------------------//
+
+            //--- Load black list -------------------------------------------------------------------------------//
+            // If no default settings, create them.
+            if (m_pDsSettings.Tables["BlackListSettings"].Rows.Count == 0)
+            {
+                DataRow dr = m_pDsSettings.Tables["BlackListSettings"].NewRow();
+                dr["ErrorText"] = "Your IP is in server black list !";
+                m_pDsSettings.Tables["BlackListSettings"].Rows.Add(dr);
+            }
+
+            m_pBlackList_ErrorText.Text = m_pDsSettings.Tables["BlackListSettings"].Rows[0]["ErrorText"].ToString();
+
+            foreach (DataRow dr in m_pDsSettings.Tables["BlackList"].Rows)
+            {
+                m_pBlackList_IPs.Items.Add(dr["IP"].ToString());
+            }
+            //----------------------------------------------------------------------------------------------------//
+
+            //--- Load DNSBL servers ------------------------------------//
+            foreach (DataRow dr in m_pDsSettings.Tables["Servers"].Rows)
+            {
+                ListViewItem it = new ListViewItem();
+                it.Tag = dr;
+                it.Text = dr["Server"].ToString();
+                it.SubItems.Add(dr["DefaultRejectionText"].ToString());
+                m_pServers.Items.Add(it);
+            }
+
+            m_pServers_SelectedIndexChanged(this, new EventArgs());
+            //----------------------------------------------------------//
+        }
+
+        #endregion
+
+        #region method SaveSettings
+
+        /// <summary>
+        /// Saves settings to xml file.
+        /// </summary>
+        private void SaveSettings()
+        {
+            m_pDsSettings.Tables["General"].Rows[0]["CheckHelo"] = m_pGeneral_CheckHelo.Checked;
+            m_pDsSettings.Tables["General"].Rows[0]["LogRejections"] = m_pGeneral_LogRejections.Checked;
+
+            m_pDsSettings.WriteXml(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\lsDNSBL_Filter_db.xml");
+        }
+
+        #endregion
+
+
+        #region method SwapItems
+
+        /// <summary>
+        /// Swaps specified items.
+        /// </summary>
+        /// <param name="item1">Item 1.</param>
+        /// <param name="item2">Item 2.</param>
+        private void SwapItems(ListViewItem item1, ListViewItem item2)
+        {
+            DataRow drV_Down = (DataRow)item1.Tag;
+            DataRow drV_Up = (DataRow)item2.Tag;
+
+            string down_Cost = drV_Down["Cost"].ToString();
+            string down_Server = drV_Down["Server"].ToString();
+            string down_RejectionText = drV_Down["DefaultRejectionText"].ToString();
+
+            drV_Down["Cost"] = drV_Up["Cost"];
+            drV_Down["Server"] = drV_Up["Server"];
+            drV_Down["DefaultRejectionText"] = drV_Up["DefaultRejectionText"];
+            drV_Up["Cost"] = down_Cost;
+            drV_Up["Server"] = down_Server;
+            drV_Up["DefaultRejectionText"] = down_RejectionText;
+
+            item1.Text = item2.Text;
+            item1.SubItems[1].Text = item2.SubItems[1].Text;
+            item2.Text = down_Server;
+            item2.SubItems[1].Text = down_RejectionText;
+
+            if (item1.Selected)
+            {
+                item2.Selected = true;
+            }
+            else if (item2.Selected)
+            {
+                item1.Selected = true;
+            }
+        }
+
+        #endregion
+    }
 }
