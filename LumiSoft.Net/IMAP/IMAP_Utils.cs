@@ -624,25 +624,38 @@ namespace System.NetworkToolkit.IMAP
             reader.ReadToFirstChar();
 
             // We have string-literal.
-            if(reader.SourceString.StartsWith("{")){
+            if (reader.SourceString.StartsWith("{"))
+            {
                 int literalSize = Convert.ToInt32(reader.ReadParenthesized());
                 // Literal has CRLF ending, skip it.
                 reader.ReadSpecifiedLength(2);
-                                                
+
                 return reader.ReadSpecifiedLength(literalSize);
             }
             // utf8-quoted old rfc 5738
-            else if(reader.StartsWith("*\"")){
+            else if (reader.StartsWith("*\""))
+            {
                 reader.ReadSpecifiedLength(1);
 
                 return reader.ReadWord();
             }
+            else if (reader.StartsWith("<"))
+            {
+                reader.ReadSpecifiedLength(1);
+                string word= reader.ReadWord();
+                if (reader.StartsWith(">")) {
+                    reader.ReadSpecifiedLength(1);
+                }
+                return word;
+            }
             // string/astring/nstring
-            else{
+            else
+            {
                 string word = reader.ReadWord();
-                
+
                 // nstring
-                if(string.Equals(word,"NIL",StringComparison.InvariantCultureIgnoreCase)){
+                if (string.Equals(word, "NIL", StringComparison.InvariantCultureIgnoreCase))
+                {
                     return null;
                 }
 

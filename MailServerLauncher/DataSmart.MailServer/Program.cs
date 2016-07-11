@@ -13,28 +13,6 @@ namespace DataSmart.MailServer
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Program.CurrentDomain_UnhandledException);
 			if (args.Length <= 0)
 			{
-				try
-				{
-					try
-					{
-						File.Delete(Application.StartupPath + "\\System.Data.SQLite.dll");
-						if (IntPtr.Size == 8)
-						{
-							File.Copy(Application.StartupPath + "\\System.Data.SQLite.x64.dll", Application.StartupPath + "\\System.Data.SQLite.dll");
-						}
-						else
-						{
-							File.Copy(Application.StartupPath + "\\System.Data.SQLite.x86.dll", Application.StartupPath + "\\System.Data.SQLite.dll");
-						}
-					}
-					catch
-					{
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("Error: " + ex.ToString(), "Error:", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-				}
 				Application.ThreadException += new ThreadExceptionEventHandler(Program.Application_ThreadException);
 				Application.EnableVisualStyles();
 				Application.Run(new InstallAppForm());

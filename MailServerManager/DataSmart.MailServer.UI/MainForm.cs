@@ -293,8 +293,13 @@ namespace DataSmart.MailServer.UI
             if (connectForm.ShowDialog(this) == DialogResult.OK)
             {
                 string text = "";
-                if (connectForm.SaveConnection && connectForm.Host != "")
+                if (connectForm.SaveConnection)
                 {
+                    var host = connectForm.Host;
+                    if (string.IsNullOrEmpty(host))
+                    {
+                        host = "127.0.0.1";
+                    }
                     text = Guid.NewGuid().ToString();
                     if (!Directory.Exists(Application.StartupPath + "/Settings"))
                     {
@@ -303,7 +308,7 @@ namespace DataSmart.MailServer.UI
                     DataSet dataSet = this.LoadRegisteredServers();
                     DataRow dataRow = dataSet.Tables["Servers"].NewRow();
                     dataRow["ID"] = text;
-                    dataRow["Host"] = connectForm.Host;
+                    dataRow["Host"] = host;
                     dataRow["UserName"] = connectForm.UserName;
                     dataRow["Password"] = connectForm.Password;
                     dataSet.Tables["Servers"].Rows.Add(dataRow);
@@ -570,11 +575,7 @@ namespace DataSmart.MailServer.UI
             if (MessageBox.Show(this, "Are you sure you want to remove server '" + treeNode.Text + "' from list ?", "Confirm delete:", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 DataSet dataSet = this.LoadRegisteredServers();
-                DataRow serverById = this.GetServerById(treeNodeInfo.Server.ID);
-                if (serverById != null)
-                {
-                    dataSet.WriteXml(MainForm.mgrServersXml);
-                }
+                this.RemoveRowByID(treeNodeInfo.Server.ID);
                 treeNodeInfo.Server.Disconnect();
                 treeNode.Remove();
             }
@@ -591,6 +592,23 @@ namespace DataSmart.MailServer.UI
                 }
             }
             return null;
+        }
+
+        private bool RemoveRowByID(string id)
+        {
+            DataRow row = null;
+            DataSet dataSet = this.LoadRegisteredServers();
+            foreach (DataRow dataRow in dataSet.Tables["Servers"].Rows)
+            {
+                if (dataRow["ID"].ToString() == id)
+                {
+                    row = dataRow;
+                    dataSet.Tables["Servers"].Rows.Remove(row);
+                    dataSet.WriteXml(mgrServersXml);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private DataSet LoadRegisteredServers()
