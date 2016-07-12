@@ -381,7 +381,7 @@ namespace DataSmart.MailServer
             catch (Exception x)
             {
                 e.Reply = new SMTP_Reply(500, "Internal server error.");
-                Error.DumpError(this.Name, x, new StackTrace());
+                Error.DumpError(this.Name, x);
             }
         }
 
@@ -477,7 +477,7 @@ namespace DataSmart.MailServer
             catch (Exception x)
             {
                 e.Reply = new SMTP_Reply(500, "Internal server error.");
-                Error.DumpError(this.Name, x, new StackTrace());
+                Error.DumpError(this.Name, x);
             }
         }
 
@@ -683,7 +683,7 @@ namespace DataSmart.MailServer
             }
             catch (Exception x)
             {
-                Error.DumpError(this.Name, x, new StackTrace());
+                Error.DumpError(this.Name, x);
             }
         }
 
@@ -696,7 +696,7 @@ namespace DataSmart.MailServer
             }
             catch (Exception x)
             {
-                Error.DumpError(x, new StackTrace());
+                Error.DumpError(x);
             }
         }
 
@@ -714,7 +714,7 @@ namespace DataSmart.MailServer
             }
             catch (Exception x)
             {
-                Error.DumpError(this.Name, x, new StackTrace());
+                Error.DumpError(this.Name, x);
             }
         }
 
@@ -727,7 +727,7 @@ namespace DataSmart.MailServer
             }
             catch (Exception x)
             {
-                Error.DumpError(this.Name, x, new StackTrace());
+                Error.DumpError(this.Name, x);
             }
         }
 
@@ -1941,7 +1941,7 @@ namespace DataSmart.MailServer
             }
             catch (Exception x7)
             {
-                Error.DumpError(x7, new StackTrace());
+                Error.DumpError(x7);
             }
         }
 

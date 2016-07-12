@@ -152,7 +152,7 @@ namespace DataSmart.MailServer
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Error.DumpError((Exception)e.ExceptionObject, new StackTrace());
+            Error.DumpError((Exception)e.ExceptionObject);
         }
 
         private void m_pSettingsTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -301,7 +301,7 @@ namespace DataSmart.MailServer
             }
             catch (Exception x)
             {
-                Error.DumpError(x, new StackTrace());
+                Error.DumpError(x);
             }
         }
     }

@@ -207,8 +207,9 @@ namespace DataSmart.MailServer.Relay
 			Thread thread = new Thread(new ThreadStart(this.ProcessRelay));
             thread.Name = "RelayServer Relay Thread";
 			thread.Start();
+
 			Thread thread2 = new Thread(new ThreadStart(this.ProcessRelayRetry));
-            thread.Name = "RelayServer Relay Retry Thread";
+            thread2.Name = "RelayServer Relay Retry Thread";
 			thread2.Start();
 		}
 

@@ -101,7 +101,7 @@ namespace DataSmart.MailServer.UI
 			}
 			catch (Exception x)
 			{
-				Error.DumpError(x, new StackTrace());
+				Error.DumpError(x);
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace DataSmart.MailServer.UI
 			}
 			catch (Exception x)
 			{
-				Error.DumpError(x, new StackTrace());
+				Error.DumpError(x);
 			}
 		}
 
@@ -127,7 +127,7 @@ namespace DataSmart.MailServer.UI
 			}
 			catch (Exception x)
 			{
-				Error.DumpError(x, new StackTrace());
+				Error.DumpError(x);
 			}
 		}
 	}

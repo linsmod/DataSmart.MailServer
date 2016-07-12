@@ -79,7 +79,7 @@ namespace DataSmart.MailServer
 			}
 			catch (Exception x)
 			{
-				Error.DumpError(x, new StackTrace());
+				Error.DumpError(x);
 			}
 		}
 	}

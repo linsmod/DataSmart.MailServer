@@ -28,34 +28,34 @@ namespace System.NetworkToolkit.SMTP.Relay
     /// </summary>
     public class Relay_Server : IDisposable
     {
-        private bool                                 m_IsDisposed            = false;
-        private bool                                 m_IsRunning             = false;
-        private IPBindInfo[]                         m_pBindings             = new IPBindInfo[0];
-        private bool                                 m_HasBindingsChanged    = false;
-        private Relay_Mode                           m_RelayMode             = Relay_Mode.Dns;
-        private List<Relay_Queue>                    m_pQueues               = null;
-        private BalanceMode                          m_SmartHostsBalanceMode = BalanceMode.LoadBalance;
-        private CircleCollection<Relay_SmartHost>    m_pSmartHosts           = null;
-        private CircleCollection<IPBindInfo>         m_pLocalEndPointIPv4    = null;
-        private CircleCollection<IPBindInfo>         m_pLocalEndPointIPv6    = null;
-        private long                                 m_MaxConnections        = 0;
-        private long                                 m_MaxConnectionsPerIP   = 0;
-        private bool                                 m_UseTlsIfPossible      = false; 
-        private Dns_Client                           m_pDsnClient            = null;
-        private TCP_SessionCollection<Relay_Session> m_pSessions             = null;
-        private Dictionary<IPAddress,long>           m_pConnectionsPerIP     = null;
-        private int                                  m_SessionIdleTimeout    = 30;
-        private TimerEx                              m_pTimerTimeout         = null;
-        private Logger                               m_pLogger               = null;
+        private bool m_IsDisposed = false;
+        private bool m_IsRunning = false;
+        private IPBindInfo[] m_pBindings = new IPBindInfo[0];
+        private bool m_HasBindingsChanged = false;
+        private Relay_Mode m_RelayMode = Relay_Mode.Dns;
+        private List<Relay_Queue> m_pQueues = null;
+        private BalanceMode m_SmartHostsBalanceMode = BalanceMode.LoadBalance;
+        private CircleCollection<Relay_SmartHost> m_pSmartHosts = null;
+        private CircleCollection<IPBindInfo> m_pLocalEndPointIPv4 = null;
+        private CircleCollection<IPBindInfo> m_pLocalEndPointIPv6 = null;
+        private long m_MaxConnections = 0;
+        private long m_MaxConnectionsPerIP = 0;
+        private bool m_UseTlsIfPossible = false;
+        private Dns_Client m_pDsnClient = null;
+        private TCP_SessionCollection<Relay_Session> m_pSessions = null;
+        private Dictionary<IPAddress, long> m_pConnectionsPerIP = null;
+        private int m_SessionIdleTimeout = 30;
+        private TimerEx m_pTimerTimeout = null;
+        private Logger m_pLogger = null;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         public Relay_Server()
         {
-            m_pQueues     = new List<Relay_Queue>();
+            m_pQueues = new List<Relay_Queue>();
             m_pSmartHosts = new CircleCollection<Relay_SmartHost>();
-            m_pDsnClient  = new Dns_Client();
+            m_pDsnClient = new Dns_Client();
         }
 
         #region method Dispose
@@ -65,15 +65,19 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// </summary>
         public void Dispose()
         {
-            if(m_IsDisposed){
+            if (m_IsDisposed)
+            {
                 return;
             }
-            try{
-                if(m_IsRunning){
+            try
+            {
+                if (m_IsRunning)
+                {
                     Stop();
                 }
             }
-            catch{
+            catch
+            {
             }
             m_IsDisposed = true;
 
@@ -81,7 +85,7 @@ namespace System.NetworkToolkit.SMTP.Relay
             this.Error = null;
             this.SessionCompleted = null;
 
-            m_pQueues     = null;
+            m_pQueues = null;
             m_pSmartHosts = null;
 
             m_pDsnClient.Dispose();
@@ -100,20 +104,26 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Event data.</param>
-        private void m_pTimerTimeout_Elapsed(object sender,System.Timers.ElapsedEventArgs e)
+        private void m_pTimerTimeout_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            try{
-                foreach(Relay_Session session in this.Sessions.ToArray()){
-                    try{
-                        if(session.LastActivity.AddSeconds(m_SessionIdleTimeout) < DateTime.Now){
+            try
+            {
+                foreach (Relay_Session session in this.Sessions.ToArray())
+                {
+                    try
+                    {
+                        if (session.LastActivity.AddSeconds(m_SessionIdleTimeout) < DateTime.Now)
+                        {
                             session.Dispose(new Exception("Session idle timeout."));
                         }
                     }
-                    catch{
+                    catch
+                    {
                     }
                 }
             }
-            catch(Exception x){
+            catch (Exception x)
+            {
                 OnError(x);
             }
         }
@@ -131,18 +141,20 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this method is accessed.</exception>
         public virtual void Start()
         {
-            if(m_IsDisposed){
+            if (m_IsDisposed)
+            {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
-            if(m_IsRunning){
+            if (m_IsRunning)
+            {
                 return;
             }
             m_IsRunning = true;
 
             m_pLocalEndPointIPv4 = new CircleCollection<IPBindInfo>();
             m_pLocalEndPointIPv6 = new CircleCollection<IPBindInfo>();
-            m_pSessions          = new TCP_SessionCollection<Relay_Session>();
-            m_pConnectionsPerIP  = new Dictionary<IPAddress,long>();
+            m_pSessions = new TCP_SessionCollection<Relay_Session>();
+            m_pConnectionsPerIP = new Dictionary<IPAddress, long>();
 
             Thread tr1 = new Thread(new ThreadStart(this.Run));
             tr1.Name = "Relay Server Loop Thread";
@@ -152,7 +164,7 @@ namespace System.NetworkToolkit.SMTP.Relay
             m_pTimerTimeout.Elapsed += new System.Timers.ElapsedEventHandler(m_pTimerTimeout_Elapsed);
             m_pTimerTimeout.Start();
         }
-                
+
         #endregion
 
         #region method Stop
@@ -163,16 +175,18 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this method is accessed.</exception>
         public virtual void Stop()
         {
-            if(m_IsDisposed){
+            if (m_IsDisposed)
+            {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
-            if(!m_IsRunning){
+            if (!m_IsRunning)
+            {
                 return;
             }
             m_IsRunning = false;
 
             // TODO: We need to send notify to all not processed messages, then they can be Disposed as needed.
-                        
+
             // Clean up.            
             m_pLocalEndPointIPv4 = null;
             m_pLocalEndPointIPv6 = null;
@@ -184,7 +198,7 @@ namespace System.NetworkToolkit.SMTP.Relay
         }
 
         #endregion
-                              
+
 
         #region method Run
 
@@ -193,43 +207,60 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// </summary>
         private void Run()
         {
-            while(m_IsRunning){
-                try{
+            while (m_IsRunning)
+            {
+                try
+                {
                     // Bind info has changed, create new local end points.
-                    if(m_HasBindingsChanged){
+                    if (m_HasBindingsChanged)
+                    {
                         m_pLocalEndPointIPv4.Clear();
                         m_pLocalEndPointIPv6.Clear();
 
-                        foreach(IPBindInfo binding in m_pBindings){
-                            if(binding.IP == IPAddress.Any){
-                                foreach(IPAddress ip in System.Net.Dns.GetHostAddresses("")){
-                                    if(ip.AddressFamily == AddressFamily.InterNetwork){
-                                        IPBindInfo b = new IPBindInfo(binding.HostName,binding.Protocol,ip,25);
-                                        if(!m_pLocalEndPointIPv4.Contains(b)){
+                        foreach (IPBindInfo binding in m_pBindings)
+                        {
+                            if (binding.IP == IPAddress.Any)
+                            {
+                                foreach (IPAddress ip in System.Net.Dns.GetHostAddresses(""))
+                                {
+                                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                                    {
+                                        IPBindInfo b = new IPBindInfo(binding.HostName, binding.Protocol, ip, 25);
+                                        if (!m_pLocalEndPointIPv4.Contains(b))
+                                        {
                                             m_pLocalEndPointIPv4.Add(b);
                                         }
                                     }
                                 }
                             }
-                            else if(binding.IP == IPAddress.IPv6Any){
-                                foreach(IPAddress ip in System.Net.Dns.GetHostAddresses("")){
-                                    if(ip.AddressFamily == AddressFamily.InterNetworkV6){
-                                        IPBindInfo b = new IPBindInfo(binding.HostName,binding.Protocol,ip,25);
-                                        if(!m_pLocalEndPointIPv6.Contains(b)){
+                            else if (binding.IP == IPAddress.IPv6Any)
+                            {
+                                foreach (IPAddress ip in System.Net.Dns.GetHostAddresses(""))
+                                {
+                                    if (ip.AddressFamily == AddressFamily.InterNetworkV6)
+                                    {
+                                        IPBindInfo b = new IPBindInfo(binding.HostName, binding.Protocol, ip, 25);
+                                        if (!m_pLocalEndPointIPv6.Contains(b))
+                                        {
                                             m_pLocalEndPointIPv6.Add(b);
                                         }
                                     }
                                 }
                             }
-                            else{
-                                IPBindInfo b = new IPBindInfo(binding.HostName,binding.Protocol,binding.IP,25);
-                                if(binding.IP.AddressFamily == AddressFamily.InterNetwork){
-                                    if(!m_pLocalEndPointIPv4.Contains(b)){
+                            else
+                            {
+                                IPBindInfo b = new IPBindInfo(binding.HostName, binding.Protocol, binding.IP, 25);
+                                if (binding.IP.AddressFamily == AddressFamily.InterNetwork)
+                                {
+                                    if (!m_pLocalEndPointIPv4.Contains(b))
+                                    {
                                         m_pLocalEndPointIPv4.Add(b);
                                     }
                                 }
-                                else{
-                                    if(!m_pLocalEndPointIPv6.Contains(b)){
+                                else
+                                {
+                                    if (!m_pLocalEndPointIPv6.Contains(b))
+                                    {
                                         m_pLocalEndPointIPv6.Add(b);
                                     }
                                 }
@@ -240,61 +271,74 @@ namespace System.NetworkToolkit.SMTP.Relay
                     }
 
                     // There are no local end points specified.
-                    if(m_pLocalEndPointIPv4.Count == 0 && m_pLocalEndPointIPv6.Count == 0){
+                    if (m_pLocalEndPointIPv4.Count == 0 && m_pLocalEndPointIPv6.Count == 0)
+                    {
                         Thread.Sleep(10);
                     }
                     // Maximum allowed relay sessions exceeded, skip adding new ones.
-                    else if(m_MaxConnections != 0 && m_pSessions.Count >= m_MaxConnections){
+                    else if (m_MaxConnections != 0 && m_pSessions.Count >= m_MaxConnections)
+                    {
                         Thread.Sleep(10);
                     }
-                    else{
+                    else
+                    {
                         Relay_QueueItem item = null;
 
                         // Get next queued message from highest possible priority queue.
-                        foreach(Relay_Queue queue in m_pQueues){
+                        foreach (Relay_Queue queue in m_pQueues)
+                        {
                             item = queue.DequeueMessage();
                             // There is queued message.
-                            if(item != null){
+                            if (item != null)
+                            {
                                 break;
                             }
                             // No messages in this queue, see next lower priority queue.
                         }
 
                         // There are no messages in any queue.
-                        if(item == null){
+                        if (item == null)
+                        {
                             Thread.Sleep(10);
                         }
                         // Create new session for queued relay item.
-                        else{
+                        else
+                        {
                             // Relay item has relay target server specified.
-                            if(item.TargetServer != null){
-                                Relay_Session session = new Relay_Session(this,item,new Relay_SmartHost[]{item.TargetServer});
+                            if (item.TargetServer != null)
+                            {
+                                Relay_Session session = new Relay_Session(this, item, new Relay_SmartHost[] { item.TargetServer });
                                 m_pSessions.Add(session);
                                 ThreadPool.QueueUserWorkItem(new WaitCallback(session.Start));
                             }
-                            else if(m_RelayMode == Relay_Mode.Dns){
-                                Relay_Session session = new Relay_Session(this,item);
+                            else if (m_RelayMode == Relay_Mode.Dns)
+                            {
+                                Relay_Session session = new Relay_Session(this, item);
                                 m_pSessions.Add(session);
                                 ThreadPool.QueueUserWorkItem(new WaitCallback(session.Start));
                             }
-                            else if(m_RelayMode == Relay_Mode.SmartHost){
+                            else if (m_RelayMode == Relay_Mode.SmartHost)
+                            {
                                 // Get smart hosts in balance mode order.
                                 Relay_SmartHost[] smartHosts = null;
-                                if(m_SmartHostsBalanceMode == BalanceMode.FailOver){
+                                if (m_SmartHostsBalanceMode == BalanceMode.FailOver)
+                                {
                                     smartHosts = m_pSmartHosts.ToArray();
                                 }
-                                else{
+                                else
+                                {
                                     smartHosts = m_pSmartHosts.ToCurrentOrderArray();
                                 }
 
-                                Relay_Session session = new Relay_Session(this,item,smartHosts);
+                                Relay_Session session = new Relay_Session(this, item, smartHosts);
                                 m_pSessions.Add(session);
                                 ThreadPool.QueueUserWorkItem(new WaitCallback(session.Start));
-                            }                            
+                            }
                         }
-                    }                    
+                    }
                 }
-                catch(Exception x){
+                catch (Exception x)
+                {
                     OnError(x);
                 }
             }
@@ -313,7 +357,8 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ArgumentNullException">Is raised when <b>remoteIP</b> is null reference.</exception>
         internal IPBindInfo GetLocalBinding(IPAddress remoteIP)
         {
-            if(remoteIP == null){
+            if (remoteIP == null)
+            {
                 throw new ArgumentNullException("remoteIP");
             }
 
@@ -321,20 +366,26 @@ namespace System.NetworkToolkit.SMTP.Relay
             // This ensures if multiple network connections, all will be load balanced.
 
             // IPv6
-            if(remoteIP.AddressFamily == AddressFamily.InterNetworkV6){
-                if(m_pLocalEndPointIPv6.Count == 0){
+            if (remoteIP.AddressFamily == AddressFamily.InterNetworkV6)
+            {
+                if (m_pLocalEndPointIPv6.Count == 0)
+                {
                     return null;
                 }
-                else{
+                else
+                {
                     return m_pLocalEndPointIPv6.Next();
                 }
             }
             // IPv4
-            else{
-                if(m_pLocalEndPointIPv4.Count == 0){
+            else
+            {
+                if (m_pLocalEndPointIPv4.Count == 0)
+                {
                     return null;
                 }
-                else{
+                else
+                {
                     return m_pLocalEndPointIPv4.Next();
                 }
             }
@@ -353,24 +404,29 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <returns>Returns true if specified IP usage increased, false if maximum allowed connections to the specified IP address is exceeded.</returns>
         internal bool TryAddIpUsage(IPAddress ip)
         {
-            if(ip == null){
+            if (ip == null)
+            {
                 throw new ArgumentNullException("ip");
             }
 
-            lock(m_pConnectionsPerIP){
+            lock (m_pConnectionsPerIP)
+            {
                 long count = 0;
                 // Specified IP entry exists, increase usage.
-                if(m_pConnectionsPerIP.TryGetValue(ip,out count)){
+                if (m_pConnectionsPerIP.TryGetValue(ip, out count))
+                {
                     // Maximum allowed connections to the specified IP address is exceeded.
-                    if(m_MaxConnectionsPerIP > 0 && count >= m_MaxConnectionsPerIP){
+                    if (m_MaxConnectionsPerIP > 0 && count >= m_MaxConnectionsPerIP)
+                    {
                         return false;
                     }
 
                     m_pConnectionsPerIP[ip] = count + 1;
                 }
                 // Specified IP entry doesn't exist, create new entry and increase usage.
-                else{
-                    m_pConnectionsPerIP.Add(ip,1);
+                else
+                {
+                    m_pConnectionsPerIP.Add(ip, 1);
                 }
 
                 return true;
@@ -388,24 +444,30 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ArgumentNullException">Is raised when <b>ip</b> is null.</exception>
         internal void RemoveIpUsage(IPAddress ip)
         {
-            if(ip == null){
+            if (ip == null)
+            {
                 throw new ArgumentNullException("ip");
             }
 
-            lock(m_pConnectionsPerIP){
+            lock (m_pConnectionsPerIP)
+            {
                 long count = 0;
                 // Specified IP entry exists, increase usage.
-                if(m_pConnectionsPerIP.TryGetValue(ip,out count)){
+                if (m_pConnectionsPerIP.TryGetValue(ip, out count))
+                {
                     // This is last usage to that IP, remove that IP entry.
-                    if(count == 1){
+                    if (count == 1)
+                    {
                         m_pConnectionsPerIP.Remove(ip);
                     }
                     // Decrease Ip usage.
-                    else{
+                    else
+                    {
                         m_pConnectionsPerIP[ip] = count - 1;
                     }
                 }
-                else{
+                else
+                {
                     // No such entry, just skip it.
                 }
             }
@@ -423,18 +485,22 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ArgumentNullException">Is raised when <b>ip</b> is null.</exception>
         internal long GetIpUsage(IPAddress ip)
         {
-            if(ip == null){
+            if (ip == null)
+            {
                 throw new ArgumentNullException("ip");
             }
 
-            lock(m_pConnectionsPerIP){
+            lock (m_pConnectionsPerIP)
+            {
                 long count = 0;
                 // Specified IP entry exists, return usage.
-                if(m_pConnectionsPerIP.TryGetValue(ip,out count)){
+                if (m_pConnectionsPerIP.TryGetValue(ip, out count))
+                {
                     return count;
                 }
                 // No usage to specified IP.
-                else{
+                else
+                {
                     return 0;
                 }
             }
@@ -450,7 +516,7 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// </summary>
         public bool IsDisposed
         {
-            get{ return m_IsDisposed; }
+            get { return m_IsDisposed; }
         }
 
         /// <summary>
@@ -458,7 +524,7 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// </summary>
         public bool IsRunning
         {
-            get{ return m_IsRunning; }
+            get { return m_IsRunning; }
         }
 
         /// <summary>
@@ -467,37 +533,47 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public IPBindInfo[] Bindings
         {
-            get{
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_pBindings; 
+                return m_pBindings;
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(value == null){
+                if (value == null)
+                {
                     value = new IPBindInfo[0];
                 }
 
                 //--- See binds has changed --------------
                 bool changed = false;
-                if(m_pBindings.Length != value.Length){
+                if (m_pBindings.Length != value.Length)
+                {
                     changed = true;
                 }
-                else{
-                    for(int i=0;i<m_pBindings.Length;i++){
-                        if(!m_pBindings[i].Equals(value[i])){
+                else
+                {
+                    for (int i = 0; i < m_pBindings.Length; i++)
+                    {
+                        if (!m_pBindings[i].Equals(value[i]))
+                        {
                             changed = true;
                             break;
                         }
                     }
                 }
 
-                if(changed){
+                if (changed)
+                {
                     m_pBindings = value;
                     m_HasBindingsChanged = true;
                 }
@@ -510,16 +586,20 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public Relay_Mode RelayMode
         {
-            get{ 
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_RelayMode; 
+                return m_RelayMode;
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
@@ -533,12 +613,14 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public List<Relay_Queue> Queues
         {
-            get{
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_pQueues; 
+                return m_pQueues;
             }
         }
 
@@ -548,16 +630,20 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public BalanceMode SmartHostsBalanceMode
         {
-            get{ 
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_SmartHostsBalanceMode; 
+                return m_SmartHostsBalanceMode;
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
@@ -572,26 +658,31 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ArgumentNullException">Is raised when null value is passed.</exception>
         public Relay_SmartHost[] SmartHosts
         {
-            get{
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
                 return m_pSmartHosts.ToArray();
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(value == null){
+                if (value == null)
+                {
                     throw new ArgumentNullException("SmartHosts");
                 }
 
                 m_pSmartHosts.Add(value);
             }
         }
-                
+
         /// <summary>
         /// Gets or sets maximum allowed concurent connections. Value 0 means unlimited.
         /// </summary>
@@ -599,19 +690,24 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ArgumentException">Is raised when negative value is passed.</exception>
         public long MaxConnections
         {
-            get{
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                
-                return m_MaxConnections; 
+
+                return m_MaxConnections;
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(value < 0){
+                if (value < 0)
+                {
                     throw new ArgumentException("Property 'MaxConnections' value must be >= 0.");
                 }
 
@@ -625,19 +721,24 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public long MaxConnectionsPerIP
         {
-            get{ 
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                
-                return m_MaxConnectionsPerIP; 
+
+                return m_MaxConnectionsPerIP;
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(m_MaxConnectionsPerIP < 0){
+                if (m_MaxConnectionsPerIP < 0)
+                {
                     throw new ArgumentException("Property 'MaxConnectionsPerIP' value must be >= 0.");
                 }
 
@@ -651,16 +752,20 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public bool UseTlsIfPossible
         {
-            get{ 
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                
-                return m_UseTlsIfPossible; 
+
+                return m_UseTlsIfPossible;
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
@@ -675,18 +780,24 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ArgumentException">Is raised when invalid value is passed.</exception>
         public int SessionIdleTimeout
         {
-            get{
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
                 return m_SessionIdleTimeout;
             }
 
-            set{if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(m_SessionIdleTimeout < 0){
+                if (m_SessionIdleTimeout < 0)
+                {
                     throw new ArgumentException("Property 'SessionIdleTimeout' value must be >= 0.");
                 }
 
@@ -701,26 +812,29 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="InvalidOperationException">Is raised when this property is accessed and relay server is not running.</exception>
         public TCP_SessionCollection<Relay_Session> Sessions
         {
-            get{ 
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(!m_IsRunning){
+                if (!m_IsRunning)
+                {
                     throw new InvalidOperationException("Relay server not running.");
                 }
 
-                return m_pSessions; 
+                return m_pSessions;
             }
-        }        
+        }
 
         /// <summary>
         /// Gets or sets relay logger. Value null means no logging.
         /// </summary>
         public Logger Logger
         {
-            get{ return m_pLogger; }
+            get { return m_pLogger; }
 
-            set{ m_pLogger = value; }
+            set { m_pLogger = value; }
         }
 
         /// <summary>
@@ -730,19 +844,24 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <exception cref="ArgumentNullException">Is raised when null value is passed.</exception>
         public Dns_Client DnsClient
         {
-            get{
-                if(m_IsDisposed){
+            get
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
                 return m_pDsnClient;
             }
 
-            set{
-                if(m_IsDisposed){
+            set
+            {
+                if (m_IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(value == null){
+                if (value == null)
+                {
                     throw new ArgumentNullException("DnsClient");
                 }
 
@@ -766,10 +885,11 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// </summary>
         /// <param name="session">Session what completed processing.</param>
         /// <param name="exception">Exception happened or null if relay completed successfully.</param>
-        internal protected virtual void OnSessionCompleted(Relay_Session session,Exception exception)
+        internal protected virtual void OnSessionCompleted(Relay_Session session, Exception exception)
         {
-            if(this.SessionCompleted != null){
-                this.SessionCompleted(new Relay_SessionCompletedEventArgs(session,exception));
+            if (this.SessionCompleted != null)
+            {
+                this.SessionCompleted(new Relay_SessionCompletedEventArgs(session, exception));
             }
         }
 
@@ -788,8 +908,9 @@ namespace System.NetworkToolkit.SMTP.Relay
         /// <param name="x">Exception happned.</param>
         internal protected virtual void OnError(Exception x)
         {
-            if(this.Error != null){
-                this.Error(this,new Error_EventArgs(x,new System.Diagnostics.StackTrace()));
+            if (this.Error != null)
+            {
+                this.Error(this, new Error_EventArgs(x, new System.Diagnostics.StackTrace()));
             }
         }
 

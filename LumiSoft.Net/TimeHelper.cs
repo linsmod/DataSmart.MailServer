@@ -21,20 +21,15 @@ namespace System.NetworkToolkit
 
         public static DateTime Parse(string time)
         {
-            DateTime utcTime;
-            if (!DateTime.TryParseExact(time, new string[] { TransferTimeFormat, ReadalbeTimeFormat }, DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None, out utcTime))
+            if (time.Length == TransferTimeFormat.Length)
             {
-                if (!DateTime.TryParse(time, DateTimeFormatInfo.InvariantInfo, System.Globalization.DateTimeStyles.None, out utcTime))
-                {
-                    throw new FormatException("unsopported time format:" + time);
-                }
+                return DateTime.ParseExact(time, TransferTimeFormat, DateTimeFormatInfo.CurrentInfo);
             }
-            return utcTime.ToLocalTime();
-        }
-
-        public static string ToString(DateTime dt, string format = TransferTimeFormat)
-        {
-            return dt.ToString(TransferTimeFormat, DateTimeFormatInfo.InvariantInfo);
+            else if (time.Length == ReadalbeTimeFormat.Length)
+            {
+                return DateTime.ParseExact(time, ReadalbeTimeFormat, DateTimeFormatInfo.CurrentInfo);
+            }
+            return DateTime.Parse(time);
         }
     }
 }
