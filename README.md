@@ -2,6 +2,8 @@
 
 .Net Mail Server based on Lumisoft opensource project
 
+<img src="http://www.dsvisual.cn/Media/Default/dsmailserver/dsmailserver.png"></img>
+
 # Features
 
 - supports pop3 smtp imap etc.
@@ -58,6 +60,23 @@ add 'Pop3 Allow All' and 'Rlay Allow All'  like that too.
 - add rules to allow access from specific IPs or ip ranges
 - The users here only for management cases.
 
+# 邮件服务器软件
+
+源码托管于：https://github.com/kissstudio/DataSmart.MailServer
+
+使用.Net开发的邮件服务器，基于Lumisoft开源项目构建，包含以下特性
+
+- 支持POP3，IMAP，SMTP
+- SSL/TLS 加持
+- 支持在同一个服务端配置多个虚拟服务器
+- 支持绑定多个不同的域名
+- 支持以 Windows服务 或者 Winform应用程序 运行，可以通过任务栏图标启动管理器
+- 支持通过邮件服务器管理器程序（MailServerManager.exe）进行远程管理和配置
+- 在远程管理功能上，支持基于IP和账号的安全性访问控制
+- 支持邮件回收站
+- 支持基于接口的二次开发
+- 提供付费技术支持，如有需要请联系我
+- 
 
 
 
