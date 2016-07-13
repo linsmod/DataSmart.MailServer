@@ -86,6 +86,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DataSmart.MailServer.UI\TrayAppForm.resx">
+      <DependentUpon>TrayAppForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataSmart.MailServerLauncher.Resources.exit.ico" />
     <EmbeddedResource Include="DataSmart.MailServerLauncher.Resources.trayicon.ico" />
   </ItemGroup>

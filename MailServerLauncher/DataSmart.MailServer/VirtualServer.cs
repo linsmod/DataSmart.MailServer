@@ -1912,24 +1912,31 @@ namespace DataSmart.MailServer
                             this.m_Fetch_LogPath = PathHelper.PathFix(ConvertEx.ToString(settings["FetchPOP3_LogPath"]) + "\\");
                             if (settings["SMTP_LogPath"].ToString().Trim().Length == 0)
                             {
-                                this.m_SMTP_LogPath = PathHelper.PathFix(this.m_pOwnerServer.StartupPath + "Logs\\SMTP\\");
+                                this.m_SMTP_LogPath = "Logs\\SMTP\\";
                             }
                             if (settings["POP3_LogPath"].ToString().Trim().Length == 0)
                             {
-                                this.m_POP3_LogPath = PathHelper.PathFix(this.m_pOwnerServer.StartupPath + "Logs\\POP3\\");
+                                this.m_POP3_LogPath = "Logs\\POP3\\";
                             }
                             if (settings["IMAP_LogPath"].ToString().Trim().Length == 0)
                             {
-                                this.m_IMAP_LogPath = PathHelper.PathFix(this.m_pOwnerServer.StartupPath + "Logs\\IMAP\\");
+                                this.m_IMAP_LogPath = "Logs\\IMAP\\";
                             }
                             if (settings["Server_LogPath"].ToString().Trim().Length == 0)
                             {
-                                this.m_Server_LogPath = PathHelper.PathFix(this.m_pOwnerServer.StartupPath + "Logs\\Server\\");
+                                this.m_Server_LogPath = "Logs\\Server\\";
                             }
                             if (settings["FetchPOP3_LogPath"].ToString().Trim().Length == 0)
                             {
-                                this.m_Fetch_LogPath = PathHelper.PathFix(this.m_pOwnerServer.StartupPath + "Logs\\FetchPOP3\\");
+                                this.m_Fetch_LogPath = "Logs\\FetchPOP3\\";
                             }
+
+                            var basePath = new DirectoryInfo(this.MailStorePath).Parent.FullName;
+                            this.m_SMTP_LogPath = Path.Combine(basePath, m_SMTP_LogPath);
+                            this.m_POP3_LogPath = Path.Combine(basePath, m_POP3_LogPath);
+                            this.m_IMAP_LogPath = Path.Combine(basePath, m_IMAP_LogPath);
+                            this.m_Fetch_LogPath = Path.Combine(basePath, m_Fetch_LogPath);
+
                             this.m_pFetchServer.LogPath = this.m_Fetch_LogPath;
                         }
                         catch (Exception x6)
