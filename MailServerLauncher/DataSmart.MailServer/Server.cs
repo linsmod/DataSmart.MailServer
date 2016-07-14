@@ -293,6 +293,7 @@ namespace DataSmart.MailServer
                             string text = dataRow2["API_initstring"].ToString();
                             IMailServerManagementApi api = this.LoadApi(assembly, typeName, text);
                             VirtualServer virtualServer2 = new VirtualServer(this, id, name, text, api);
+                            virtualServer2.Owner = this;
                             this.m_pVirtualServers.Add(virtualServer2);
                             virtualServer2.Enabled = ConvertEx.ToBoolean(dataRow2["Enabled"], true);
                         }
@@ -303,6 +304,32 @@ namespace DataSmart.MailServer
             {
                 Error.DumpError(x);
             }
+        }
+
+        internal bool DomainExists(string domain)
+        {
+            foreach (var vSvrv in VirtualServers)
+            {
+                var exits = vSvrv.ManagementApi.DomainExists(domain);
+                if (exits)
+                {
+                    return exits;
+                }
+            }
+            return false;
+        }
+
+        internal string MapUser(string emailAddress)
+        {
+            foreach (var vSvrv in VirtualServers)
+            {
+                var mUser = vSvrv.ManagementApi.MapUser(emailAddress);
+                if (mUser != null)
+                {
+                    return mUser;
+                }
+            }
+            return null;
         }
     }
 }

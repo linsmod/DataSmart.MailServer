@@ -1707,8 +1707,9 @@ namespace System.NetworkToolkit.SMTP.Server
 
             reply = OnRcptTo(to,reply);
 
+
             // RCPT accepted.
-            if(reply.ReplyCode < 300){
+            if (reply.ReplyCode < 300){
                 if(!m_pTo.ContainsKey(address.ToLower())){
                     m_pTo.Add(address.ToLower(),to);
                 }

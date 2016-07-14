@@ -77,6 +77,14 @@ namespace DataSmart.MailServer
 
         private string m_Auth_LDAP_DN = "";
 
+        public bool SMTP_RequireAuth
+        {
+            get
+            {
+                return m_SMTP_RequireAuth;
+            }
+        }
+
         private bool m_SMTP_RequireAuth;
 
         private string m_SMTP_DefaultDomain = "";
@@ -230,6 +238,10 @@ namespace DataSmart.MailServer
             }
         }
 
+        public Server Owner { get; internal set; }
+
+        public IMailServerManagementApi ManagementApi { get { return this.m_pApi; } }
+
         public VirtualServer(Server server, string id, string name, string apiInitString, IMailServerManagementApi api)
         {
             this.m_pOwnerServer = server;
@@ -333,6 +345,7 @@ namespace DataSmart.MailServer
 
         private void m_pSMTP_Server_Session_Ehlo(object sender, SMTP_e_Ehlo e)
         {
+
         }
 
         private void m_pSMTP_Server_Session_MailFrom(object sender, SMTP_e_MailFrom e)
@@ -342,11 +355,14 @@ namespace DataSmart.MailServer
                 e.Reply = new SMTP_Reply(530, "5.7.0  Authentication required.");
                 return;
             }
+
             if (e.MailFrom.Mailbox.IndexOf('@') != -1 && e.MailFrom.Mailbox.Substring(e.MailFrom.Mailbox.IndexOf('@') + 1).Length < 1)
             {
                 e.Reply = new SMTP_Reply(501, "MAIL FROM: address(" + e.MailFrom + ") domain name must be specified.");
                 return;
             }
+
+
             try
             {
                 DataView filters = this.m_pApi.GetFilters();
@@ -387,8 +403,19 @@ namespace DataSmart.MailServer
 
         private void m_pSMTP_Server_Session_RcptTo(object sender, SMTP_e_RcptTo e)
         {
+            SMTP_Session session = sender as SMTP_Session;
             try
             {
+                //one of mailFrom and mailTo must matches an exists user in virtual servers when unauthencated.
+                if (!session.IsAuthenticated)
+                {
+                    if (!string.IsNullOrEmpty(this.Owner.MapUser(session.From.Mailbox) + this.Owner.MapUser(e.RcptTo.Mailbox)))
+                    {
+                        e.Reply = new SMTP_Reply(550, "No such user here.");
+                        return;
+                    }
+                }
+
                 string text = e.RcptTo.Mailbox;
                 if (text.IndexOf("@") == -1)
                 {
@@ -407,18 +434,16 @@ namespace DataSmart.MailServer
                                 if (this.m_pApi.CanAccessMailingList(text, "anyone"))
                                 {
                                     e.Reply = new SMTP_Reply(250, "OK.");
-                                    goto IL_25C;
                                 }
-                                goto IL_25C;
+                                return;
                             }
                             else
                             {
                                 if (this.m_pApi.CanAccessMailingList(text, e.Session.AuthenticatedUserIdentity.Name))
                                 {
                                     e.Reply = new SMTP_Reply(250, "OK.");
-                                    goto IL_25C;
                                 }
-                                goto IL_25C;
+                                return;
                             }
                         }
                         else
@@ -436,7 +461,7 @@ namespace DataSmart.MailServer
                                         break;
                                     }
                                 }
-                                goto IL_25C;
+                                return;
                             }
                             finally
                             {
@@ -472,7 +497,6 @@ namespace DataSmart.MailServer
                         e.Reply = new SMTP_Reply(250, "User not local will relay.");
                     }
                 }
-                IL_25C:;
             }
             catch (Exception x)
             {

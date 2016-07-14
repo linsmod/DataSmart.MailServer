@@ -431,7 +431,6 @@ namespace DataSmart.MailServer
         public bool DomainExists(string source)
         {
             this.m_UpdSync.AddMethod();
-            bool result;
             try
             {
                 if (source.IndexOf("@") > -1)
@@ -442,11 +441,10 @@ namespace DataSmart.MailServer
                 {
                     if (dataRow["DomainName"].ToString().ToLower() == source.ToLower())
                     {
-                        result = true;
-                        return result;
+                        return true;
                     }
                 }
-                result = false;
+                return false;
             }
             catch (Exception ex)
             {
@@ -456,7 +454,6 @@ namespace DataSmart.MailServer
             {
                 this.m_UpdSync.RemoveMethod();
             }
-            return result;
         }
 
         public DataView GetUsers(string domainName)
@@ -788,7 +785,6 @@ namespace DataSmart.MailServer
         public string MapUser(string emailAddress)
         {
             this.m_UpdSync.AddMethod();
-            string result;
             try
             {
                 foreach (DataRow dataRow in this.dsUserAddresses.Tables["UserAddresses"].Rows)
@@ -800,13 +796,12 @@ namespace DataSmart.MailServer
                         {
                             if (a == dataRow2["UserID"].ToString())
                             {
-                                result = dataRow2["UserName"].ToString();
-                                return result;
+                                return dataRow2["UserName"].ToString();
                             }
                         }
                     }
                 }
-                result = null;
+                return null;
             }
             catch (Exception ex)
             {
@@ -816,7 +811,6 @@ namespace DataSmart.MailServer
             {
                 this.m_UpdSync.RemoveMethod();
             }
-            return result;
         }
 
         public bool ValidateMailboxSize(string userName)
