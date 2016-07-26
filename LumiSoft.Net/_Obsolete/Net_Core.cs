@@ -1110,42 +1110,6 @@ namespace System.NetworkToolkit
         #endregion
 
 
-        #region static method CreateSocket
-
-        /// <summary>
-        /// Creates new socket for the specified end point.
-        /// </summary>
-        /// <param name="localEP">Local end point.</param>
-        /// <param name="protocolType">Protocol type.</param>
-        /// <returns>Retruns newly created socket.</returns>                   
-        [Obsolete("Use Net_Utils.CreateSocket instead of it")]
-        public static Socket CreateSocket(IPEndPoint localEP,ProtocolType protocolType)
-        {
-            SocketType socketType = SocketType.Stream;
-            if(protocolType == ProtocolType.Udp){
-                socketType = SocketType.Dgram;
-            }
-                        
-            if(localEP.AddressFamily == AddressFamily.InterNetwork){
-                Socket socket = new Socket(AddressFamily.InterNetwork,socketType,protocolType);
-                socket.Bind(localEP);
-
-                return socket;
-            }
-            else if(localEP.AddressFamily == AddressFamily.InterNetworkV6){
-                Socket socket = new Socket(AddressFamily.InterNetworkV6,socketType,protocolType);
-                socket.Bind(localEP);
-
-                return socket;
-            }
-            else{
-                throw new ArgumentException("Invalid IPEndPoint address family.");
-            }
-        }
-
-        #endregion
-
-
         #region method ToHex
 
         /// <summary>

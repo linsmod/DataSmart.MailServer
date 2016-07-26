@@ -65,14 +65,16 @@ namespace DataSmart.MailServer
 
         public static string GetExceptionMessage(Exception ex, int deep = 1)
         {
+            var whiteSpaces = string.Join("----", Enumerable.Repeat("", deep - 1));
             var sb = new StringBuilder();
-            sb.AppendFormat("{0} Exception =======================\r\n", DateTime.Now);
-            sb.AppendFormat("Message:{0}\r\n", ex.Message);
-            sb.AppendFormat("StackTrace:{0}\r\n", ex.StackTrace);
+            sb.AppendLine(whiteSpaces + ex.Message);
+            if (!string.IsNullOrEmpty(ex.StackTrace))
+            {
+                sb.AppendLine(whiteSpaces + ex.StackTrace);
+            }
             if (ex.InnerException != null)
             {
-                var whiteSpaces = string.Join("----", Enumerable.Repeat("", 1));
-                sb.AppendFormat("{0} {1}\r\n\r\n", whiteSpaces, GetExceptionMessage(ex.InnerException, deep + 1));
+                sb.AppendFormat(GetExceptionMessage(ex.InnerException, deep + 1));
             }
             return sb.ToString();
         }

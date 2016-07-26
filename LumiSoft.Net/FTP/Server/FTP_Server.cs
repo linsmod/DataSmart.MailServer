@@ -9,23 +9,23 @@ using System.NetworkToolkit.AUTH;
 
 namespace System.NetworkToolkit.FTP.Server
 {
-	/// <summary>
-	/// FTP Server component.
-	/// </summary>
-	public class FTP_Server : TCP_Server<FTP_Session>
-	{
-        private string    m_GreetingText     = "";
-        private int       m_MaxBadCommands   = 30;
+    /// <summary>
+    /// FTP Server component.
+    /// </summary>
+    public class FTP_Server : TCP_Server<FTP_Session>
+    {
+        private string m_GreetingText = "";
+        private int m_MaxBadCommands = 30;
         private IPAddress m_pPassivePublicIP = null;
-        private int       m_PassiveStartPort = 20000;
+        private int m_PassiveStartPort = 20000;
 
-		/// <summary>
-		/// Defalut constructor.
-		/// </summary>
-		public FTP_Server()
-		{
+        /// <summary>
+        /// Defalut constructor.
+        /// </summary>
+        public FTP_Server()
+        {
             this.SessionIdleTimeout = 3600;
-		}
+        }
 
 
         #region override method OnMaxConnectionsExceeded
@@ -69,15 +69,20 @@ namespace System.NetworkToolkit.FTP.Server
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public string GreetingText
         {
-            get{                
-                if(this.IsDisposed){
+            get
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_GreetingText; }
+                return m_GreetingText;
+            }
 
-            set{
-                if(this.IsDisposed){
+            set
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
@@ -92,19 +97,24 @@ namespace System.NetworkToolkit.FTP.Server
         /// <exception cref="ArgumentException">Is raised when invalid value is passed.</exception>
         public int MaxBadCommands
         {
-            get{
-                if(this.IsDisposed){
+            get
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_MaxBadCommands; 
+                return m_MaxBadCommands;
             }
 
-            set{
-                if(this.IsDisposed){
+            set
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(value < 0){
+                if (value < 0)
+                {
                     throw new ArgumentException("Property 'MaxBadCommands' value must be >= 0.");
                 }
 
@@ -119,9 +129,9 @@ namespace System.NetworkToolkit.FTP.Server
         /// </summary>
         public IPAddress PassivePublicIP
         {
-            get{ return m_pPassivePublicIP; }
+            get { return m_pPassivePublicIP; }
 
-            set{ m_pPassivePublicIP = value; }
+            set { m_pPassivePublicIP = value; }
         }
 
         /// <summary>
@@ -130,10 +140,12 @@ namespace System.NetworkToolkit.FTP.Server
         /// <exception cref="ArgumentException">Is raised when ivalid value is passed.</exception>
         public int PassiveStartPort
         {
-            get{ return m_PassiveStartPort; }
+            get { return m_PassiveStartPort; }
 
-            set{
-                if(value < 1){
+            set
+            {
+                if (value < 1)
+                {
                     throw new ArgumentException("Valu must be > 0 !");
                 }
 
@@ -142,5 +154,5 @@ namespace System.NetworkToolkit.FTP.Server
         }
 
         #endregion
-	}
+    }
 }

@@ -147,12 +147,13 @@ namespace DataSmart.MailServer.UI
             try
             {
                 this.m_pMailServer.Start();
-                this.m_pMenu.Items[2].Enabled = false;
-                this.m_pMenu.Items[3].Enabled = true;
+                this.m_pMenu.Items[1].Enabled = false;
+                this.m_pMenu.Items[2].Enabled = true;
             }
             catch (Exception x)
             {
                 Error.DumpError(x);
+                MessageBox.Show(x.Message + "\r\n \r\n" + x.StackTrace);
             }
         }
 
@@ -161,8 +162,8 @@ namespace DataSmart.MailServer.UI
             try
             {
                 this.m_pMailServer.Stop();
-                this.m_pMenu.Items[2].Enabled = true;
-                this.m_pMenu.Items[3].Enabled = false;
+                this.m_pMenu.Items[1].Enabled = true;
+                this.m_pMenu.Items[2].Enabled = false;
             }
             catch (Exception x)
             {

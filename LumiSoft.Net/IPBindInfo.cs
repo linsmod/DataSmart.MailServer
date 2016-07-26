@@ -11,13 +11,13 @@ namespace System.NetworkToolkit
     /// </summary>
     public class IPBindInfo
     {
-        private string           m_HostName     = "";
-        private BindInfoProtocol m_Protocol     = BindInfoProtocol.TCP;  
-        private IPEndPoint       m_pEndPoint    = null;
-        private SslMode          m_SslMode      = SslMode.None;
+        private string m_HostName = "";
+        private BindInfoProtocol m_Protocol = BindInfoProtocol.TCP;
+        private IPEndPoint m_pEndPoint = null;
+        private SslMode m_SslMode = SslMode.None;
         private X509Certificate2 m_pCertificate = null;
-        private object           m_Tag          = null;
-
+        private object m_Tag = null;
+        public bool OnWorking { get; set; }
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -26,15 +26,16 @@ namespace System.NetworkToolkit
         /// <param name="ip">IP address to listen.</param>
         /// <param name="port">Port to listen.</param>
         /// <exception cref="ArgumentNullException">Is raised when <b>ip</b> is null.</exception>
-        public IPBindInfo(string hostName,BindInfoProtocol protocol,IPAddress ip,int port)
+        public IPBindInfo(string hostName, BindInfoProtocol protocol, IPAddress ip, int port)
         {
-            if(ip == null){
+            if (ip == null)
+            {
                 throw new ArgumentNullException("ip");
             }
 
-            m_HostName  = hostName;
-            m_Protocol  = protocol;
-            m_pEndPoint = new IPEndPoint(ip,port);
+            m_HostName = hostName;
+            m_Protocol = protocol;
+            m_pEndPoint = new IPEndPoint(ip, port);
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace System.NetworkToolkit
         /// <param name="sslMode">Specifies SSL mode.</param>
         /// <param name="sslCertificate">Certificate to use for SSL connections.</param>
         /// <exception cref="ArgumentNullException">Is raised when <b>ip</b> is null.</exception>
-        public IPBindInfo(string hostName,IPAddress ip,int port,SslMode sslMode,X509Certificate2 sslCertificate) : this(hostName,BindInfoProtocol.TCP,ip,port,sslMode,sslCertificate)
+        public IPBindInfo(string hostName, IPAddress ip, int port, SslMode sslMode, X509Certificate2 sslCertificate) : this(hostName, BindInfoProtocol.TCP, ip, port, sslMode, sslCertificate)
         {
         }
 
@@ -61,18 +62,20 @@ namespace System.NetworkToolkit
         /// <param name="sslCertificate">Certificate to use for SSL connections.</param>
         /// <exception cref="ArgumentNullException">Is raised when <b>ip</b> is null.</exception>
         /// <exception cref="ArgumentException">Is raised when any of the arguments has invalid value.</exception>
-        public IPBindInfo(string hostName,BindInfoProtocol protocol,IPAddress ip,int port,SslMode sslMode,X509Certificate2 sslCertificate)
+        public IPBindInfo(string hostName, BindInfoProtocol protocol, IPAddress ip, int port, SslMode sslMode, X509Certificate2 sslCertificate)
         {
-            if(ip == null){
+            if (ip == null)
+            {
                 throw new ArgumentNullException("ip");
             }
-            
-            m_HostName     = hostName;
-            m_Protocol     = protocol;
-            m_pEndPoint    = new IPEndPoint(ip,port);
-            m_SslMode      = sslMode;
+
+            m_HostName = hostName;
+            m_Protocol = protocol;
+            m_pEndPoint = new IPEndPoint(ip, port);
+            m_SslMode = sslMode;
             m_pCertificate = sslCertificate;
-            if((sslMode == SslMode.SSL || sslMode == SslMode.TLS) && sslCertificate == null){
+            if ((sslMode == SslMode.SSL || sslMode == SslMode.TLS) && sslCertificate == null)
+            {
                 throw new ArgumentException("SSL requested, but argument 'sslCertificate' is not provided.");
             }
         }
@@ -87,27 +90,34 @@ namespace System.NetworkToolkit
         /// <returns>Returns true if two objects are equal.</returns>
         public override bool Equals(object obj)
         {
-            if(obj == null){
+            if (obj == null)
+            {
                 return false;
             }
-            if(!(obj is IPBindInfo)){
+            if (!(obj is IPBindInfo))
+            {
                 return false;
             }
 
             IPBindInfo bInfo = (IPBindInfo)obj;
-            if(bInfo.HostName != m_HostName){
+            if (bInfo.HostName != m_HostName)
+            {
                 return false;
             }
-            if(bInfo.Protocol != m_Protocol){
+            if (bInfo.Protocol != m_Protocol)
+            {
                 return false;
             }
-            if(!bInfo.EndPoint.Equals(m_pEndPoint)){
+            if (!bInfo.EndPoint.Equals(m_pEndPoint))
+            {
                 return false;
             }
-            if(bInfo.SslMode != m_SslMode){
+            if (bInfo.SslMode != m_SslMode)
+            {
                 return false;
             }
-            if(!X509Certificate.Equals(bInfo.Certificate,m_pCertificate)){
+            if (!X509Certificate.Equals(bInfo.Certificate, m_pCertificate))
+            {
                 return false;
             }
 
@@ -137,7 +147,7 @@ namespace System.NetworkToolkit
         /// </summary>
         public string HostName
         {
-            get{ return m_HostName; }
+            get { return m_HostName; }
         }
 
         /// <summary>
@@ -145,7 +155,7 @@ namespace System.NetworkToolkit
         /// </summary>
         public BindInfoProtocol Protocol
         {
-            get{ return m_Protocol; }
+            get { return m_Protocol; }
         }
 
         /// <summary>
@@ -153,7 +163,7 @@ namespace System.NetworkToolkit
         /// </summary>
         public IPEndPoint EndPoint
         {
-            get{ return m_pEndPoint; }
+            get { return m_pEndPoint; }
         }
 
         /// <summary>
@@ -161,7 +171,7 @@ namespace System.NetworkToolkit
         /// </summary>
         public IPAddress IP
         {
-            get{ return m_pEndPoint.Address; }
+            get { return m_pEndPoint.Address; }
         }
 
         /// <summary>
@@ -169,7 +179,7 @@ namespace System.NetworkToolkit
         /// </summary>
         public int Port
         {
-            get{ return m_pEndPoint.Port; }
+            get { return m_pEndPoint.Port; }
         }
 
         /// <summary>
@@ -177,7 +187,7 @@ namespace System.NetworkToolkit
         /// </summary>
         public SslMode SslMode
         {
-            get{ return m_SslMode; }
+            get { return m_SslMode; }
         }
 
         /// <summary>
@@ -186,7 +196,7 @@ namespace System.NetworkToolkit
         [Obsolete("Use property Certificate instead.")]
         public X509Certificate2 SSL_Certificate
         {
-            get{ return m_pCertificate; }
+            get { return m_pCertificate; }
         }
 
         /// <summary>
@@ -194,7 +204,7 @@ namespace System.NetworkToolkit
         /// </summary>
         public X509Certificate2 Certificate
         {
-            get{ return m_pCertificate; }
+            get { return m_pCertificate; }
         }
 
 
@@ -203,9 +213,14 @@ namespace System.NetworkToolkit
         /// </summary>
         public object Tag
         {
-            get{ return m_Tag; }
+            get { return m_Tag; }
 
-            set{ m_Tag = value; }
+            set { m_Tag = value; }
+        }
+
+        public override string ToString()
+        {
+            return this.EndPoint.ToString() + "(" + this.HostName + ")";
         }
 
         #endregion

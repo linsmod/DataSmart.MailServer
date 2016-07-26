@@ -109,6 +109,10 @@
       <Project>{7ab36ccf-5ffd-4780-a54e-a102eca028b5}</Project>
       <Name>System.NetworkToolkit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MailServerManager\MailServerManager.csproj">
+      <Project>{e72b6753-c56b-4c1c-95c7-12a9fb91ac96}</Project>
+      <Name>MailServerManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VirusScan\MailServer.VirusScan.csproj">
       <Project>{4ec90da3-4b2c-4f20-95eb-bcb5e48a090d}</Project>
       <Name>MailServer.VirusScan</Name>

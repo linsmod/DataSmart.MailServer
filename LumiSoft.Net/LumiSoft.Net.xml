@@ -15047,6 +15047,16 @@
             Gets host value. Value null means not specified.
             </summary>
         </member>
+        <member name="F:System.NetworkToolkit.TimeHelper.ReadalbeTimeFormat">
+            <summary>
+            用于阅读的时间格式
+            </summary>
+        </member>
+        <member name="F:System.NetworkToolkit.TimeHelper.TransferTimeFormat">
+            <summary>
+            用于数据传输的时间格式
+            </summary>
+        </member>
         <member name="T:System.NetworkToolkit.Mime.vCard.vCard_Utils">
             <summary>
             Provides vCard related methods.
@@ -44280,7 +44290,7 @@
             </summary>
             <remarks>For higher performance, mutiple acceptors per socket must be created.</remarks>
         </member>
-        <member name="M:System.NetworkToolkit.TCP.TCP_Server`1.TCP_Acceptor.#ctor(System.Net.Sockets.Socket)">
+        <member name="M:System.NetworkToolkit.TCP.TCP_Server`1.TCP_Acceptor.#ctor(System.Net.Sockets.Socket,System.NetworkToolkit.IPBindInfo)">
             <summary>
             Default constructor.
             </summary>
@@ -44309,7 +44319,7 @@
             </summary>
             <param name="ar">The result of the asynchronous operation.</param>
         </member>
-        <member name="P:System.NetworkToolkit.TCP.TCP_Server`1.TCP_Acceptor.Tags">
+        <member name="P:System.NetworkToolkit.TCP.TCP_Server`1.TCP_Acceptor.BindInfo">
             <summary>
             Gets user data items.
             </summary>
@@ -45231,14 +45241,6 @@
             <param name="ip">IP address to check.</param>
             <returns>Returns true if IP is private IP.</returns>
             <exception cref="T:System.ArgumentNullException">Is raised when <b>ip</b> is null reference.</exception>             
-        </member>
-        <member name="M:System.NetworkToolkit.Core.CreateSocket(System.Net.IPEndPoint,System.Net.Sockets.ProtocolType)">
-            <summary>
-            Creates new socket for the specified end point.
-            </summary>
-            <param name="localEP">Local end point.</param>
-            <param name="protocolType">Protocol type.</param>
-            <returns>Retruns newly created socket.</returns>                   
         </member>
         <member name="M:System.NetworkToolkit.Core.ToHexString(System.String)">
             <summary>

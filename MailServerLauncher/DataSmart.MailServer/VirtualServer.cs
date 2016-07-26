@@ -406,32 +406,33 @@ namespace DataSmart.MailServer
             SMTP_Session session = sender as SMTP_Session;
             try
             {
-                //one of mailFrom and mailTo must matches an exists user in virtual servers when unauthencated.
-                if (!session.IsAuthenticated)
+                string address = e.RcptTo.Mailbox;
+                if (address.IndexOf("@") == -1)
                 {
-                    if (!string.IsNullOrEmpty(this.Owner.MapUser(session.From.Mailbox) + this.Owner.MapUser(e.RcptTo.Mailbox)))
-                    {
-                        e.Reply = new SMTP_Reply(550, "No such user here.");
-                        return;
-                    }
+                    address = address + "@" + this.m_SMTP_DefaultDomain;
                 }
 
-                string text = e.RcptTo.Mailbox;
-                if (text.IndexOf("@") == -1)
+                //one of mailFrom and mailTo must matches an exists user in virtual servers when unauthenticated.
+                //if (!session.IsAuthenticated)
+                //{
+                //    if (!string.IsNullOrEmpty(this.Owner.MapUser(session.From.Mailbox) + this.Owner.MapUser(e.RcptTo.Mailbox)))
+                //    {
+                //        e.Reply = new SMTP_Reply(550, "No such user here.");
+                //        return;
+                //    }
+                //}
+
+                if (this.m_pApi.DomainExists(address))
                 {
-                    text = text + "@" + this.m_SMTP_DefaultDomain;
-                }
-                if (this.m_pApi.DomainExists(text))
-                {
-                    string text2 = this.m_pApi.MapUser(text);
+                    string text2 = this.m_pApi.MapUser(address);
                     if (text2 == null)
                     {
-                        e.Reply = new SMTP_Reply(550, "No such user here.");
-                        if (this.m_pApi.MailingListExists(text))
+                        e.Reply = new SMTP_Reply(550, "No such user here..");
+                        if (this.m_pApi.MailingListExists(address))
                         {
                             if (!e.Session.IsAuthenticated)
                             {
-                                if (this.m_pApi.CanAccessMailingList(text, "anyone"))
+                                if (this.m_pApi.CanAccessMailingList(address, "anyone"))
                                 {
                                     e.Reply = new SMTP_Reply(250, "OK.");
                                 }
@@ -439,7 +440,7 @@ namespace DataSmart.MailServer
                             }
                             else
                             {
-                                if (this.m_pApi.CanAccessMailingList(text, e.Session.AuthenticatedUserIdentity.Name))
+                                if (this.m_pApi.CanAccessMailingList(address, e.Session.AuthenticatedUserIdentity.Name))
                                 {
                                     e.Reply = new SMTP_Reply(250, "OK.");
                                 }
@@ -455,7 +456,7 @@ namespace DataSmart.MailServer
                                 while (enumerator.MoveNext())
                                 {
                                     DataRowView dataRowView = (DataRowView)enumerator.Current;
-                                    if (Convert.ToBoolean(dataRowView["Enabled"]) && SCore.IsAstericMatch(dataRowView["Pattern"].ToString(), text))
+                                    if (Convert.ToBoolean(dataRowView["Enabled"]) && SCore.IsAstericMatch(dataRowView["Pattern"].ToString(), address))
                                     {
                                         e.Reply = new SMTP_Reply(250, "OK.");
                                         break;

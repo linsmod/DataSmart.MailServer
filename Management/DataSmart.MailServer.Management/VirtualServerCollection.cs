@@ -137,7 +137,7 @@ namespace DataSmart.MailServer.Management
 					' '
 				}, 2)[1]);
 				MemoryStream memoryStream = new MemoryStream();
-				this.m_pParent.TCP_Client.TcpStream.ReadFixedCount(memoryStream, (long)num);
+				this.m_pParent.TCP_Client.TcpStream.ReadFixedCount(memoryStream, num);
 				DataSet dataSet = Utils.DecompressDataSet(memoryStream);
 				if (dataSet.Tables.Contains("Servers"))
 				{

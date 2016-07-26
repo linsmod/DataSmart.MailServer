@@ -11,9 +11,9 @@ namespace System.NetworkToolkit.POP3.Server
     /// This class implements POP3 server. Defined RFC 1939.
     /// </summary>
     public class POP3_Server : TCP_Server<POP3_Session>
-    {        
-        private string m_GreetingText   = "";
-        private int    m_MaxBadCommands = 30;
+    {
+        private string m_GreetingText = "";
+        private int m_MaxBadCommands = 30;
 
         /// <summary>
         /// Default constructor.
@@ -64,15 +64,20 @@ namespace System.NetworkToolkit.POP3.Server
         /// <exception cref="ObjectDisposedException">Is raised when this object is disposed and this property is accessed.</exception>
         public string GreetingText
         {
-            get{                
-                if(this.IsDisposed){
+            get
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_GreetingText; }
+                return m_GreetingText;
+            }
 
-            set{
-                if(this.IsDisposed){
+            set
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
@@ -87,19 +92,24 @@ namespace System.NetworkToolkit.POP3.Server
         /// <exception cref="ArgumentException">Is raised when invalid value is passed.</exception>
         public int MaxBadCommands
         {
-            get{
-                if(this.IsDisposed){
+            get
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                return m_MaxBadCommands; 
+                return m_MaxBadCommands;
             }
 
-            set{
-                if(this.IsDisposed){
+            set
+            {
+                if (this.IsDisposed)
+                {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                if(value < 0){
+                if (value < 0)
+                {
                     throw new ArgumentException("Property 'MaxBadCommands' value must be >= 0.");
                 }
 
