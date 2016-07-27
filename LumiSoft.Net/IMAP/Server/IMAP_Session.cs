@@ -4811,7 +4811,7 @@ namespace System.NetworkToolkit.IMAP.Server
                 m_pResponseSender.SendResponseAsync(new IMAP_r_u_Search(matchedValues.ToArray()));
                 m_pResponseSender.SendResponseAsync(IMAP_r_ServerStatus.Parse(searchArgs.Response.ToString().TrimEnd().Replace("%exectime", ((DateTime.Now.Ticks - startTime) / (decimal)10000000).ToString("f2"))));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 m_pResponseSender.SendResponseAsync(new IMAP_r_ServerStatus(cmdTag, "BAD", "Error in arguments."));
                 throw ex;
@@ -5806,7 +5806,7 @@ namespace System.NetworkToolkit.IMAP.Server
                     this.Server.Logger.AddException(
                         this.ID,
                         this.AuthenticatedUserIdentity,
-                        exception.Message,
+                        ExceptionHelper.GetExceptionMessage(exception),
                         this.LocalEndPoint,
                         this.RemoteEndPoint,
                         exception
